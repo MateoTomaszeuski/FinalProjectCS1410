@@ -1,10 +1,9 @@
 ﻿public class PlayPauseButton : IButton
 {
-    private Action Input { get; set; }
     private bool IsPlaying { get; set; }
-    public PlayPauseButton(Action input)
+    public bool State { get => IsPlaying; set { }}
+    public PlayPauseButton()
     {
-        Input = input;
         if(IsPlaying)
         {
             IsPlaying = false;
@@ -13,10 +12,5 @@
         {
             IsPlaying = true;
         }
-    }
-    
-    public Action GetAction()
-    {
-        return Input;
     }
 }

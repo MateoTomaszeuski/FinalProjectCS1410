@@ -1,4 +1,4 @@
 ﻿public interface IButton
 {
-    public Action GetAction();
+    public bool State {get; set;}
 }
