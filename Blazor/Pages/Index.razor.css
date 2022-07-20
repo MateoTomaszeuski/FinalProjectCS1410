@@ -1,4 +1,20 @@
 body
 {
-    background-color: gray;
+    background-color: #0F0D1B;
+}
+
+.material-icons {
+    cursor: pointer;
+}
+
+.differentColor {
+    color: #CA4E79;
+}
+
+.differentColor:hover {
+    color: #fff;
+}
+
+h1 {
+    color: #fff;
 }

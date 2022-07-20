@@ -1,47 +1,52 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Music Player</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="top-row ps-3 navbar navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand musicPlayer" href="">Music Player</a>
+                    <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+                <nav class="flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                            <i class="material-icons sizeIcons" aria-hidden="true">home</i>Home
+                        </NavLink>
+                    </div>
+                </nav>
+            </div>
+            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+                <nav class="flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="albums" Match="NavLinkMatch.All">
+                            <i class="material-icons sizeIcons" aria-hidden="true">album</i>Albums
+                        </NavLink>
+                    </div>
+                </nav>
+            </div>
+            <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+                <nav class="flex-column">
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="playlist" Match="NavLinkMatch.All">
+                            <i class="material-icons sizeIcons" aria-hidden="true">list</i>Playlists
+                        </NavLink>
+                    </div>
+                </nav>
+            </div>
+           
+        </div>
     </div>
 </div>
+    @code {
+        private bool collapseNavMenu = true;
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <i class="material-icons sizeIcons" aria-hidden="true">search</i>Explore
-            </NavLink>
-        </div>
-    </nav>
-</div>
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="albums" Match="NavLinkMatch.All">
-                <i class="material-icons sizeIcons" aria-hidden="true">album</i>Albums
-            </NavLink>
-        </div>
-    </nav>
-</div>
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="playlist" Match="NavLinkMatch.All">
-                <i class="material-icons sizeIcons" aria-hidden="true">list</i>Playlists
-            </NavLink>
-        </div>
-    </nav>
-</div>
+        private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
+        }
     }
-}

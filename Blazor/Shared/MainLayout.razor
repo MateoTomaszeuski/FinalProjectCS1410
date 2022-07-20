@@ -1,19 +1,26 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Blazor</PageTitle>
+<PageTitle>Music Player</PageTitle>
 
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            @* <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a> *@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="top-row px-4 searchColor">
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="btn">
+                            <i class="material-icons differentColor">search</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <article class="content px-4">
+                @Body
+            </article>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    </div>
 </div>

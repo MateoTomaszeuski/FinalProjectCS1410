@@ -18,13 +18,38 @@
 
     </header>
     <main>
-        <div>
-            <h1>Albums</h1>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam saepe officia dolorum hic. Doloribus
-                voluptas, sapiente adipisci voluptatum, commodi accusantium non sint recusandae saepe, minus aut?
-                Eligendi aut amet ipsa!
-            </p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Albums</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Album</th>
+                                <th>Artist</th>
+                                <th>Year</th>
+                                <th>Genre</th>
+                                <th>Cover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* @foreach (var album in Model.Albums)
+                                <tr>
+                                <td>@album.Title</td>
+                                <td>@album.Artist</td>
+                                <td>@album.Year</td>
+                                <td>@album.Genre</td>
+                                <td><img src="@album.Cover" alt="@album.Title" class="img-thumbnail" /></td>
+                                </tr>
+                                @endforeach *@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
     <footer>

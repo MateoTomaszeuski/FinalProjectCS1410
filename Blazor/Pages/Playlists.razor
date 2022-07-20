@@ -17,14 +17,44 @@
 
     </header>
     <main>
-
-        <div>
-            <h1>Playlists</h1>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam saepe officia dolorum hic. Doloribus
-                voluptas, sapiente adipisci voluptatum, commodi accusantium non sint recusandae saepe, minus aut?
-                Eligendi aut amet ipsa!
-            </p>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Playlists</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Songs</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* @foreach (var playlist in playlists)
+                            <tr>
+                                <td>{{ playlist.Name }}</td>
+                                <td>{{ playlist.Songs.Count }}</td>
+                                <td>
+                                    <a href="/playlist/{{ playlist.Id }}">
+                                        <i class="material-icons">play_arrow</i>
+                                    </a>
+                                    <a href="/playlist/{{ playlist.Id }}/edit">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                    <a href="/playlist/{{ playlist.Id }}/delete">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach *@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
