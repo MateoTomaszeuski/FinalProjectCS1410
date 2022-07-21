@@ -4,11 +4,10 @@
 @using System.Collections;
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
-@inject ILogger<Albums> Logger
+@inject ILogger<Songs> Logger
 @inject IWebHostEnvironment Environment
 
 <head>
-
     <PageTitle>Music Player</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -30,11 +29,16 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+<<<<<<< HEAD:Blazor/Pages/Albums.razor
                                 <th>Song</th>
+=======
+                                <th>Song Name</th>
+>>>>>>> 6744a91978bb509c9c29249d22d8502158f31a58:Blazor/Pages/Songs.razor
                                 <th>Artist</th>
                                 <th>Year</th>
                             </tr>
                         </thead>
+<<<<<<< HEAD:Blazor/Pages/Albums.razor
                         <tbody>
                             <button @onclick="GetSongs">Reload List</button>
                             @foreach (var song in @Songs)
@@ -44,6 +48,16 @@
                                 </tr>
                             }
                         </tbody>
+=======
+                        @* <tbody>
+                            @foreach (var album in Model.Albums)
+                                <tr>
+                                <td>@album.Title</td>
+                                <td>@album.Artist</td>
+                                <td>@album.Year</td>
+                                @endforeach
+                        </tbody> *@
+>>>>>>> 6744a91978bb509c9c29249d22d8502158f31a58:Blazor/Pages/Songs.razor
                     </table>
                 </div>
             </div>
