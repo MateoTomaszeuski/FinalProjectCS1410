@@ -11,49 +11,60 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
+<body>
+    <header>
 
-<h3>Upload Files</h3>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 uploadClass">
+                    <h3>Upload Files</h3>
+                    <p>
+                        <h4>
+                            Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
+                        </h4>
+                    </p>
+                    <InputFile OnChange="@LoadFiles" multiple />
 
-<p>
-<h4>
-    Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
-</h4>
-</p>
-<InputFile OnChange="@LoadFiles" multiple />
+                    @if (isLoading)
+                    {
+                        <p>Uploading...</p>
+                    }
+                    else
+                    {
+                        <ul>@if (loadedFiles.Count > 0)
+                            {
+                                <h5>Uploaded Songs:</h5>
+                            }
+                            @foreach (var song in loadedFiles)
+                            {
+                                <ul>
+                                    <li>Name: @song.Name</li>
+                                </ul>
+                            }
+                        </ul>
+                        <ul>
+                            @if (InvalidLoadedFiles.Count > 0)
+                            {
+                                <h5>Invalid Files:</h5>
+                            }
+                            @foreach (var file in InvalidLoadedFiles)
+                            {
+                                <ul>
+                                    <li>Name: @file.Name: @Error</li>
+                                </ul>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
 
-@if (isLoading)
-{
-    <p>Uploading...</p>
-}
-else
-{
-    <ul>@if (loadedFiles.Count > 0)
-        {
-            <h5>Uploaded Songs:</h5>
-        }
-        @foreach (var song in loadedFiles)
-        {
-            <ul>
-                <li>Name: @song.Name</li>
-            </ul>
-
-        }
-    </ul>
-    <ul>
-        @if (InvalidLoadedFiles.Count > 0)
-        {
-            <h5>Invalid Files:</h5>
-        }
-        @foreach (var file in InvalidLoadedFiles)
-        {
-            <ul>
-                <li>Name: @file.Name: @Error</li>
-
-            </ul>
-
-        }
-    </ul>
-}
+    </footer>
+</body>
 
 @code {
     private List<IBrowserFile> loadedFiles = new();
@@ -62,7 +73,7 @@ else
     private long maxFileSize = 1024 * 1024 * 1024;
     private int maxAllowedFiles = 50;
     private string ValidContentType = "audio/mpeg";
-    private string Error ="";
+    private string Error = "";
     private bool isLoading;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
@@ -87,18 +98,15 @@ else
             else if (file.ContentType != ValidContentType)
             {
                 InvalidLoadedFiles.Add(file);
-                Error = "Invalid Format type";
+                Error = "Invalid format type";
             }
             else if (file.Size > maxFileSize)
             {
                 InvalidLoadedFiles.Add(file);
-                Error = "Invalid Size";
-
+                Error = "Invalid size";
             }
-
         }
 
         isLoading = false;
     }
-
 }
