@@ -6,7 +6,14 @@
 @inject ILogger<SongUpload> Logger
 @inject IWebHostEnvironment Environment
 
-<h1>Upload Files</h1>
+<head>
+    <PageTitle>Music Player</PageTitle>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+
+<h3>Upload Files</h3>
+
 <p>
 <h4>
     Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
@@ -55,7 +62,7 @@ else
     private long maxFileSize = 1024 * 1024 * 1024;
     private int maxAllowedFiles = 50;
     private string ValidContentType = "audio/mpeg";
-    private string Error;
+    private string Error ="";
     private bool isLoading;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
