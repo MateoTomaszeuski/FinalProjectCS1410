@@ -55,7 +55,7 @@ main {
         height: 100vh;
         position: sticky;
         top: 0;
-        background-color: #1B172F;
+        background-color: #072227;
     }
 
     .top-row {
@@ -69,17 +69,37 @@ main {
         padding-right: 1.5rem !important;
     }
 }
-
+/* 
+******************************************************************\
+Search bar
+ */
 .searchColor {
-    background-color: #0F0D1B;
-    border-bottom: #0F0D1B;
+    background-color: #35858B;
+    border-bottom: #35858B;
 }
 
 .form-control {
-    background-color: #C8B6E2;
+    background-color: #4FBDBA;
 }
 
+    .form-control:focus {
+        background-color: #4FBDBA;
+    }
+
+    .form-control::placeholder {
+        color: #AEFEFF;
+    }
+
+    .form-control:active {
+        border-color: #4FBDBA;
+    }
+
 .btn {
-    background-color: #495C83;
-    border: #495C83;
+    background-color: #AEFEFF;
+    border: #AEFEFF;
+}
+
+.input-group {
+    margin-left: 10px;
+    margin-right: 10px;
 }

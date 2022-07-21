@@ -1,6 +1,6 @@
 body
 {
-    background-color: #0F0D1B;
+    background-color: #35858B;
 }
 
 .material-icons {
@@ -8,7 +8,9 @@ body
 }
 
 .differentColor {
-    color: #CA4E79;
+    color: #fff;
+    font-size: 35px;
+    padding-top: 10px;
 }
 
 .differentColor:hover {
@@ -16,5 +18,29 @@ body
 }
 
 h1 {
-    color: #fff;
+    color: #AEFEFF;
 }
+
+.icon-bar {
+    width: 100%;
+    background-color: #072227;
+    overflow: auto;
+  }
+  
+  .icon-bar a {
+    float: left;
+    width: 25%;
+    text-align: center;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 36px;
+  }
+  
+  .icon-bar a:hover {
+    background-color: #000;
+  }
+  
+  .active {
+    background-color: #04AA6D;
+  }
