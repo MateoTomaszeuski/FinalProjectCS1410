@@ -9,16 +9,12 @@ body {
 
 .differentColor {
     color: #fff;
-    font-size: 35px;
-    padding-top: 10px;
+    font-size: 25px;
+    padding-top: 3px;
 }
 
 .differentColor:hover {
     color: #fff;
-}
-
-h1 {
-    color: #AEFEFF;
 }
 
 .icon-bar {
@@ -68,8 +64,8 @@ h1 {
     }
 
 .btn {
-    background-color: #AEFEFF;
-    border: #AEFEFF;
+    background-color: #072227;
+    border: #072227;
     height: 40px;
 }
 
