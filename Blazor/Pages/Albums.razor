@@ -1,6 +1,7 @@
-@page "/albums"
+@page "/songs"
 @using System
 @using System.IO
+@using System.Collections;
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<Albums> Logger
@@ -21,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Albums</h1>
+                    <h1>Songs</h1>
                 </div>
             </div>
             <div class="row">
@@ -29,23 +30,19 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Album</th>
+                                <th>Song</th>
                                 <th>Artist</th>
                                 <th>Year</th>
-                                <th>Genre</th>
-                                <th>Cover</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @* @foreach (var album in Model.Albums)
+                            <button @onclick="GetSongs">Reload List</button>
+                            @foreach (var song in @Songs)
+                            {
                                 <tr>
-                                <td>@album.Title</td>
-                                <td>@album.Artist</td>
-                                <td>@album.Year</td>
-                                <td>@album.Genre</td>
-                                <td><img src="@album.Cover" alt="@album.Title" class="img-thumbnail" /></td>
+                                    <td>@song</td>
                                 </tr>
-                                @endforeach *@
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -56,3 +53,27 @@
 
     </footer>
 </body>
+
+@code {
+    private static List<string> Songs = new();
+    public void GetSongs()
+    {
+        Songs.Clear();
+        var path = Path.Combine(Environment.ContentRootPath, "../Songs");
+        var allfiles = Directory.GetFiles(path);
+        foreach (var song in allfiles)
+        {
+           var songNameWithoutPath = song.Remove(0,path.Length + 1);
+            var lastpositionName = 0;
+            for(int i = 0; i < songNameWithoutPath.Length; i++)
+            {
+                if(songNameWithoutPath[i] == '.' && songNameWithoutPath[i+1] == 'm') 
+                {
+                    lastpositionName = i;
+                }
+            }
+            var songNameWithoutExtension = songNameWithoutPath.Remove(lastpositionName);
+            Songs.Add(songNameWithoutExtension);
+        }
+    }
+}
