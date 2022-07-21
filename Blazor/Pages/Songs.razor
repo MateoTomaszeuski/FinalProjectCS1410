@@ -29,26 +29,21 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-<<<<<<< HEAD:Blazor/Pages/Albums.razor
                                 <th>Song</th>
-=======
                                 <th>Song Name</th>
->>>>>>> 6744a91978bb509c9c29249d22d8502158f31a58:Blazor/Pages/Songs.razor
                                 <th>Artist</th>
                                 <th>Year</th>
                             </tr>
                         </thead>
-<<<<<<< HEAD:Blazor/Pages/Albums.razor
                         <tbody>
                             <button @onclick="GetSongs">Reload List</button>
-                            @foreach (var song in @Songs)
+                            @foreach (var song in @SongList)
                             {
                                 <tr>
                                     <td>@song</td>
                                 </tr>
                             }
                         </tbody>
-=======
                         @* <tbody>
                             @foreach (var album in Model.Albums)
                                 <tr>
@@ -57,7 +52,6 @@
                                 <td>@album.Year</td>
                                 @endforeach
                         </tbody> *@
->>>>>>> 6744a91978bb509c9c29249d22d8502158f31a58:Blazor/Pages/Songs.razor
                     </table>
                 </div>
             </div>
@@ -69,10 +63,10 @@
 </body>
 
 @code {
-    private static List<string> Songs = new();
+    private static List<string> SongList = new();
     public void GetSongs()
     {
-        Songs.Clear();
+        SongList.Clear();
         var path = Path.Combine(Environment.ContentRootPath, "../Songs");
         var allfiles = Directory.GetFiles(path);
         foreach (var song in allfiles)
@@ -87,7 +81,7 @@
                 }
             }
             var songNameWithoutExtension = songNameWithoutPath.Remove(lastpositionName);
-            Songs.Add(songNameWithoutExtension);
+            SongList.Add(songNameWithoutExtension);
         }
     }
 }
