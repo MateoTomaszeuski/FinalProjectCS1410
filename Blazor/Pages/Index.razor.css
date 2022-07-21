@@ -4,6 +4,7 @@ body {
 
 .material-icons {
     cursor: pointer;
+    height: 2rem;
 }
 
 .differentColor {
@@ -28,7 +29,7 @@ h1 {
 
 .icon-bar a {
     float: left;
-    width: 25%;
+    width: 33.33%;
     text-align: center;
     padding: 5px 0;
     transition: all 0.3s ease;
@@ -42,6 +43,34 @@ h1 {
 
 .active {
     background-color: #04AA6D;
+}
+
+.searchColor {
+    background-color: #35858B;
+    border-bottom: #35858B;
+}
+
+.form-control {
+    background-color: #4FBDBA;
+    height: 40px;
+}
+
+    .form-control:focus {
+        background-color: #4FBDBA;
+    }
+
+    .form-control::placeholder {
+        color: #AEFEFF;
+    }
+
+    .form-control:active {
+        border-color: #4FBDBA;
+    }
+
+.btn {
+    background-color: #AEFEFF;
+    border: #AEFEFF;
+    height: 40px;
 }
 
 
