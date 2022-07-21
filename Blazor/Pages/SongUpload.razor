@@ -1,33 +1,18 @@
 @page "/songUpload"
-@using System 
+@using System
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<SongUpload> Logger
 @inject IWebHostEnvironment Environment
 
-<h3>Upload Files</h3>
-
+<h1>Upload Files</h1>
 <p>
-    <label>
-        Max file size:
-        <input type="number" @bind="maxFileSize" />
-    </label>
+<h4>
+    Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
+</h4>
 </p>
-
-<p>
-    <label>
-        Max allowed files:
-        <input type="number" @bind="maxAllowedFiles" />
-    </label>
-</p>
-
-<p>
-    <label>
-        Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
-        <InputFile OnChange="@LoadFiles" multiple />
-    </label>
-</p>
+<InputFile OnChange="@LoadFiles" multiple />
 
 @if (isLoading)
 {
@@ -35,53 +20,78 @@
 }
 else
 {
-    <ul>
-        @foreach (var file in loadedFiles)
+    <ul>@if (loadedFiles.Count > 0)
         {
-            <li>
-                <ul>
-                    <li>Name: @file.Name</li>
-                    <li>Last modified: @file.LastModified.ToString()</li>
-                    @* <li>Size (bytes): @file.Size</li> *@
-                    @* <li>Content type: @file.ContentType</li> *@
-                </ul>
-            </li>
+            <h5>Uploaded Songs:</h5>
+        }
+        @foreach (var song in loadedFiles)
+        {
+            <ul>
+                <li>Name: @song.Name</li>
+            </ul>
+
+        }
+    </ul>
+    <ul>
+        @if (InvalidLoadedFiles.Count > 0)
+        {
+            <h5>Invalid Files:</h5>
+        }
+        @foreach (var file in InvalidLoadedFiles)
+        {
+            <ul>
+                <li>Name: @file.Name: @Error</li>
+
+            </ul>
+
         }
     </ul>
 }
 
 @code {
     private List<IBrowserFile> loadedFiles = new();
-    private long maxFileSize = 1024 * 10;
+    private List<IBrowserFile> InvalidLoadedFiles = new();
+    private long maxFileSizeInMegabytes = (1024 * 1024 * 1024) / 1048576;
+    private long maxFileSize = 1024 * 1024 * 1024;
     private int maxAllowedFiles = 50;
+    private string ValidContentType = "audio/mpeg";
+    private string Error;
     private bool isLoading;
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
         loadedFiles.Clear();
+        InvalidLoadedFiles.Clear();
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            try
+            if (file.ContentType == ValidContentType && file.Size <= maxFileSize)
             {
-                loadedFiles.Add(file);
 
-                var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                var path = Path.Combine(Environment.ContentRootPath,
-                        Environment.EnvironmentName, "unsafe_uploads",
-                        trustedFileNameForFileStorage);
+                loadedFiles.Add(file);
+                var path = Path.Combine(Environment.ContentRootPath, "../Songs", file.Name);
+
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+
             }
-            catch (Exception ex)
+            else if (file.ContentType != ValidContentType)
             {
-                Logger.LogError("File: {Filename} Error: {Error}", 
-                    file.Name, ex.Message);
+                InvalidLoadedFiles.Add(file);
+                Error = "Invalid Format type";
             }
+            else if (file.Size > maxFileSize)
+            {
+                InvalidLoadedFiles.Add(file);
+                Error = "Invalid Size";
+
+            }
+
         }
 
         isLoading = false;
     }
+
 }
