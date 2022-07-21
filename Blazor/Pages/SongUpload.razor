@@ -89,8 +89,7 @@
 
                 loadedFiles.Add(file);
                 var path = Path.Combine(Environment.ContentRootPath, "../Songs", file.Name);
-
-
+                
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
 

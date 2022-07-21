@@ -1,6 +1,7 @@
 @page "/songs"
 @using System
 @using System.IO
+@using System.Collections;
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<Songs> Logger
@@ -28,11 +29,21 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Song</th>
                                 <th>Song Name</th>
                                 <th>Artist</th>
                                 <th>Year</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <button @onclick="GetSongs">Reload List</button>
+                            @foreach (var song in @SongList)
+                            {
+                                <tr>
+                                    <td>@song</td>
+                                </tr>
+                            }
+                        </tbody>
                         @* <tbody>
                             @foreach (var album in Model.Albums)
                                 <tr>
@@ -50,3 +61,27 @@
 
     </footer>
 </body>
+
+@code {
+    private static List<string> SongList = new();
+    public void GetSongs()
+    {
+        SongList.Clear();
+        var path = Path.Combine(Environment.ContentRootPath, "../Songs");
+        var allfiles = Directory.GetFiles(path);
+        foreach (var song in allfiles)
+        {
+           var songNameWithoutPath = song.Remove(0,path.Length + 1);
+            var lastpositionName = 0;
+            for(int i = 0; i < songNameWithoutPath.Length; i++)
+            {
+                if(songNameWithoutPath[i] == '.' && songNameWithoutPath[i+1] == 'm') 
+                {
+                    lastpositionName = i;
+                }
+            }
+            var songNameWithoutExtension = songNameWithoutPath.Remove(lastpositionName);
+            SongList.Add(songNameWithoutExtension);
+        }
+    }
+}
