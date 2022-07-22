@@ -119,6 +119,7 @@ private void SelectedSongChanged(ChangeEventArgs e)
     protected override void OnInitialized()
     {
         SongList.Clear();
+        SongList.Add(new Song("",""));
         var allfiles = Directory.GetFiles(DirectorySongs);
         foreach (var song in allfiles)
         {
