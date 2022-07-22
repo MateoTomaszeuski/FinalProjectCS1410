@@ -20,37 +20,46 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Playlists</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Songs</th>
-                                <th>Actions</th>
+                                <th class="move">
+                                   <div class="col-md-10">
+                                     <div class="top-row searchColor">
+                                        <div class="input-group">
+                                            <input type="search" class="form-control rounded"
+                                                placeholder="Search your favorite playlist..." aria-label="Search"
+                                                aria-describedby="search-addon" />
+                                            <button type="button" class="btn">
+                                                <i class="material-icons differentColor">search</i>
+                                                @* Cloud Music *@
+                                            </button>
+                                        </div>
+                                    </div>
+                                   </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @* @foreach (var playlist in playlists)
-                            <tr>
+                                <tr>
                                 <td>{{ playlist.Name }}</td>
                                 <td>{{ playlist.Songs.Count }}</td>
                                 <td>
-                                    <a href="/playlist/{{ playlist.Id }}">
-                                        <i class="material-icons">play_arrow</i>
-                                    </a>
-                                    <a href="/playlist/{{ playlist.Id }}/edit">
-                                        <i class="material-icons">edit</i>
-                                    </a>
-                                    <a href="/playlist/{{ playlist.Id }}/delete">
-                                        <i class="material-icons">delete</i>
-                                    </a>
+                                <a href="/playlist/{{ playlist.Id }}">
+                                <i class="material-icons">play_arrow</i>
+                                </a>
+                                <a href="/playlist/{{ playlist.Id }}/edit">
+                                <i class="material-icons">edit</i>
+                                </a>
+                                <a href="/playlist/{{ playlist.Id }}/delete">
+                                <i class="material-icons">delete</i>
+                                </a>
                                 </td>
-                            </tr>
-                            @endforeach *@
+                                </tr>
+                                @endforeach *@
                         </tbody>
                     </table>
                 </div>

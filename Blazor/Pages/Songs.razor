@@ -20,29 +20,45 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <h1>Songs</h1>
+                <div class="col-md-8">
+                    <tr>
+                        <th class="bar1">
+
+                            <button type="button" class="btn btn-dark" @onclick="GetSongs">Reload List</button>
+                            @foreach (var song in @SongList)
+                            {
+                            <tr>
+                                <td>@song</td>
+                            </tr>
+                            }
+                        </th>
+                    </tr>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th>Song</th>
+                        </thead>
+                        <tbody>
+                            <tr class="bar2">
                                 <th>Song Name</th>
                                 <th>Artist</th>
                                 <th>Year</th>
+                                <th>
+                                    <div class="top-row searchColor">
+                                        <div class="input-group">
+                                            <input type="search" class="form-control rounded"
+                                                placeholder="Search your favorite song..." aria-label="Search"
+                                                aria-describedby="search-addon" />
+                                            <button type="button" class="btn">
+                                                <i class="material-icons differentColor">search</i>
+                                                @* Cloud Music *@
+                                            </button>
+                                        </div>
+                                    </div>
+                                </th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <button @onclick="GetSongs">Reload List</button>
-                            @foreach (var song in @SongList)
-                            {
-                                <tr>
-                                    <td>@song</td>
-                                </tr>
-                            }
                         </tbody>
                     </table>
                 </div>
