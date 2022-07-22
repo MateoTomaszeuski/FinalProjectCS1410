@@ -56,21 +56,21 @@
             </div>
             <h1>
 
-                <select class="form-control" @bind="@selectedSong">
+                <select class="form-control" @onchange="SelectedSongChanged">
 
                     @foreach (var Song in SongList)
                     {
-                        <option value=" "> @Song.Name</option>
+                        <option value="@Song"> @Song.Name</option>
                     }
                 </select>
-                @if (selectedSong != "")
+                @path
+                @if (SelectedSong != "")
                 {
                     <audio controls>
-                        <source src="@selectedSongPath" />
+                        <source src="@path" />
                     </audio>
                 }
             </h1>
-            @selectedSongPath
 
 
             @* <div class="row"> *@
@@ -105,19 +105,20 @@
 </body>
 @code {
     private static string DirectorySongs = Path.Combine(Directory.GetCurrentDirectory(), "../Songs");
-    List<Song> SongList = new List<Song>();
-    private string selectedSong;
-    private string selectedSongPath
+    public string SelectedSong { get; set; } = "";
+    public string[] nameAndPath { get; set; }
+    public string path {get; set;}
+private void SelectedSongChanged(ChangeEventArgs e)
     {
-        get
-        {
-            return DirectorySongs + "/" + selectedSong;
-        }
+        SelectedSong = (string)e.Value;
+        nameAndPath = SelectedSong.Split(",");
+        path = nameAndPath[1].Remove(0,8);
+        path = path.Remove(path.Length - 2);
     }
+    List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
     {
         SongList.Clear();
-        SongList.Add(new Song("", ""));
         var allfiles = Directory.GetFiles(DirectorySongs);
         foreach (var song in allfiles)
         {
