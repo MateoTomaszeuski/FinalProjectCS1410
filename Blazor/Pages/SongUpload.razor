@@ -88,11 +88,11 @@
             {
 
                 loadedFiles.Add(file);
-                var pathOfSong = Path.Combine(Environment.ContentRootPath, "../Songs", file.Name);
-                var path = Path.Combine(Environment.ContentRootPath, "../Songs");
-                createFolder(path);
+                var path = Path.Combine(Environment.ContentRootPath, "../Songs", file.Name);
+                var directory = Path.Combine(Environment.ContentRootPath, "../Songs");
+                createFolder(directory);
 
-                await using FileStream fs = new(pathOfSong, FileMode.Create);
+                await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
 
             }
@@ -112,15 +112,10 @@
     }
      static void createFolder(string path)
     {
-        string folderName = "Songs";
-        string pathString = Path.Combine(folderName, "SubFolder");
-
-        if (!System.IO.File.Exists(pathString))
+        if(!File.Exists(path))
         {
-            using (System.IO.FileStream fs = File.Create(pathString))
-            {
-              
-            }
+             System.IO.Directory.CreateDirectory(path);
+        
         }
     }
 }
