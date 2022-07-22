@@ -23,14 +23,6 @@
                 <div class="col-md-8">
                     <tr>
                         <th class="bar1">
-
-                            <button type="button" class="btn btn-dark" @onclick="GetSongs">Reload List</button>
-                            @foreach (var song in @SongList)
-                            {
-                            <tr>
-                                <td>@song</td>
-                            </tr>
-                            }
                         </th>
                     </tr>
                 </div>
@@ -63,7 +55,7 @@
                             @foreach (var song in @SongList)
                             {
                                 <tr>
-                                    <th>@song</th>
+                                    <th>@song.Name</th>
                                 </tr>
                             }
                         </tbody>
