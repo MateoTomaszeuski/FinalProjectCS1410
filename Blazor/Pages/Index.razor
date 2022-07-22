@@ -15,7 +15,8 @@
                 <div class="col-md-12">
                     <div class="top-row searchColor">
                         <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search your favorite music..." aria-label="Search"
+                            <input type="search" class="form-control rounded"
+                                placeholder="Search your favorite music..." aria-label="Search"
                                 aria-describedby="search-addon" />
                             <button type="button" class="btn">
                                 <i class="material-icons differentColor">search</i>
@@ -27,6 +28,7 @@
         </div>
     </header>
     <main>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -51,27 +53,47 @@
                     </div>
                 </div>
             </div>
+            <h1>
+
+                <select class="form-control" @bind="@selectedSong">
+
+                    @foreach (var Song in SongList)
+                    {
+                        <option value=" "> @Song.Name</option>
+                    }
+                </select>
+                @if (selectedSong != "")
+                {
+                    <audio controls>
+                        <source src="@selectedSongPath" />
+                    </audio>
+                }
+            </h1>
+            @selectedSongPath
+
+
             @* <div class="row"> *@
-                @* <div class="audio-player">
-                    <div id="play-btn"></div>
-                    <div class="audio-wrapper" id="player-container" href="javascript:;">
-                        <audio id="player" ontimeupdate="initProgressBar()">
-                            <source
-                                src="https://dl-web.dropbox.com/get/Oslo.mp3?_subject_uid=199049471&w=AABuDNt9BDJnaZOelVFws9FXTufkXCvAPS5SYpy_gRZ2GQ&duc_id=dropbox_duc_id"
-                                type="audio/mp3">
-                        </audio>
-                    </div>
-                    <div class="player-controls scrubber">
-                        <p>Oslo <small>by</small> Holy Esque</p>
-                        <span id="seek-obj-container">
-                            <progress id="seek-obj" value="0" max="1"></progress>
-                        </span>
-                        <small style="float: left; position: relative; left: 15px;" id="start-time"></small>
-                        <small style="float: right; position: relative; right: 20px;" id="end-time"></small>
-                    </div>
-                    <div class="album-image"
-                        style="background-image: url(https://img.discogs.com/smajEDf4MJk3Le7gG9oi-cke6e4=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-7859768-1452996483-9325.jpeg.jpg)">
-                    </div>
+            @* <div class="audio-player">
+                <div id="play-btn"></div>
+                <div class="audio-wrapper" id="player-container" href="javascript:;">
+                <audio id="player" ontimeupdate="initProgressBar()">
+                <source
+                src="https://dl-web.dropbox.com/get/Oslo.mp3?_subject_uid=199049471&w=AABuDNt9BDJnaZOelVFws9FXTufkXCvAPS5SYpy_gRZ2GQ&duc_id=dropbox_duc_id"
+                type="audio/mp3">
+                </audio>
+                </div>
+                <div class="player-controls scrubber">
+                <p>Oslo <small>by</small> Holy Esque</p>
+                <span id="seek-obj-container">
+                <progress id="seek-obj" value="0" max="1"></progress>
+                </span>
+                <small style="float: left; position: relative; left: 15px;" id="start-time"></small>
+                <small style="float: right; position: relative; right: 20px;" id="end-time"></small>
+                </div>
+                <div class="album-image"
+                style="background-image:
+                url(https://img.discogs.com/smajEDf4MJk3Le7gG9oi-cke6e4=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-7859768-1452996483-9325.jpeg.jpg)">
+                </div>
                 </div> *@
             @* </div> *@
         </div>
@@ -80,3 +102,36 @@
 
     </footer>
 </body>
+@code {
+    private static string DirectorySongs = Path.Combine(Directory.GetCurrentDirectory(), "../Songs");
+    List<Song> SongList = new List<Song>();
+    private string selectedSong;
+    private string selectedSongPath
+    {
+        get
+        {
+            return DirectorySongs + "/" + selectedSong;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        SongList.Clear();
+        SongList.Add(new Song("", ""));
+        var allfiles = Directory.GetFiles(DirectorySongs);
+        foreach (var song in allfiles)
+        {
+            var songNameWithoutPath = song.Remove(0, DirectorySongs.Length + 1);
+            var lastpositionName = 0;
+            for (int i = 0; i < songNameWithoutPath.Length; i++)
+            {
+                if (songNameWithoutPath[i] == '.' && songNameWithoutPath[i + 1] == 'm')
+                {
+                    lastpositionName = i;
+                }
+
+            }
+            var songNameWithoutExtension = new Song(songNameWithoutPath.Remove(lastpositionName), song);
+            SongList.Add(songNameWithoutExtension);
+        }
+    }
+}
