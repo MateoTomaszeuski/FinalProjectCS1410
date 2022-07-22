@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
+
 <body>
     <header>
 
@@ -21,9 +22,9 @@
                 <div class="col-md-12 uploadClass">
                     <h3>Upload Files</h3>
                     <p>
-                        <h4>
-                            Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
-                        </h4>
+                    <h4>
+                        Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
+                    </h4>
                     </p>
                     <InputFile OnChange="@LoadFiles" multiple />
 
@@ -110,12 +111,11 @@
 
         isLoading = false;
     }
-     static void createFolder(string path)
+    static void createFolder(string path)
     {
-        if(!File.Exists(path))
+        if (!File.Exists(path))
         {
-             System.IO.Directory.CreateDirectory(path);
-        
+            Directory.CreateDirectory(path);
         }
     }
 }
