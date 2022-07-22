@@ -92,7 +92,7 @@
                 var path = Path.Combine(Environment.ContentRootPath, "../Songs", file.Name);
                 var directory = Path.Combine(Environment.ContentRootPath, "../Songs");
                 createFolder(directory);
-
+Console.WriteLine(path);
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
 
