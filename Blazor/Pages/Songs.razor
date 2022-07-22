@@ -71,10 +71,10 @@
 
 @code {
     private static List<Song> SongList = new();
-    public void GetSongs()
+    public void GetSongs()  
     {
         SongList.Clear();
-        var path = Path.Combine(Environment.ContentRootPath, "../Songs");
+        var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         var allfiles = Directory.GetFiles(path);
         foreach (var song in allfiles)
         {

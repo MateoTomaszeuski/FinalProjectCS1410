@@ -71,7 +71,7 @@ body {
 }
 
 /************************** Audio Player ******************************/
-/* 
+
 .audio-player {
     border: 1px solid lighten(#acacac, 20%);
     text-align: center;
@@ -118,18 +118,18 @@ body {
 
         p {
             font-size: 1.6rem;
-        } */
+        } 
     /* } */
 
-    /* #play-btn {
+  #play-btn {
         background-image: url('http://imgur.com/JzQP8td.png');
         background-size: cover;
         width: 75px;
         height: 75px;
-        margin: 2rem 0 2rem 2rem; */
-
-        /* &.pause {
+        margin: 2rem 0 2rem 2rem; 
+/* 
+        &.pause {
             background-image: url('http://imgur.com/MbJn41l.png');
-        } */
-    /* } */
+        }  */
+     } 
 /* } */
