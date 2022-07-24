@@ -57,7 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <button @onclick="GetSongs">Reload List</button>
+                            <button class="reloadButton" @onclick="GetSongs">Reload List</button>
                             @foreach (var song in @SongList)
                             {
                                 <tr>
