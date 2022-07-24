@@ -6,9 +6,10 @@
 @inject ILogger<SongUpload> Logger
 @inject IWebHostEnvironment Environment
 
-<head>
+<html>
 
-    <PageTitle>Music Player</PageTitle>
+<head>
+    <PageTitle>Cloud Music</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -34,8 +35,8 @@
             </div>
         </div>
     </header>
+    
     <main>
-
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -47,8 +48,11 @@
                                         <a href="">
                                             <i class="material-icons differentColor">skip_next</i>
                                         </a>
-                                        <a href="">
-                                            <button @onclick=@(()=>hidden=!hidden)>@(hidden ? "Play" : "Stop")</button>
+                                        <a class="borders" href="">
+                                            <button class="playAndStopButton" @onclick=@(()=>hidden=!hidden)>@(hidden ? 
+                                                "Play" :
+                                                "Stop")
+                                            </button>
                                         </a>
                                         <a href="">
                                             <i class="material-icons differentColor">volume_off</i>
@@ -61,7 +65,6 @@
                 </div>
             </div>
             <h1>
-
                 <select class="form-control" @onchange="SelectedSongChanged">
 
                     @foreach (var Song in SongList)
@@ -108,13 +111,27 @@
                     </div>
                 }
             </h1>
-
         </div>
     </main>
     <footer>
-
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved
+                    </p>
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
+
+</html>
 @code {
     private static string DirectorySongs = "";
     public string SelectedSong { get; set; } = "";

@@ -49,20 +49,20 @@ body {
 .form-control {
     background-color: #4FBDBA;
     height: 40px;
-    margin-bottom: 100px;
+    margin-bottom: 60px;
 }
 
-    .form-control:focus {
-        background-color: #4FBDBA;
-    }
+.form-control:focus {
+    background-color: #4FBDBA;
+}
 
-    .form-control::placeholder {
-        color: #AEFEFF;
-    }
+.form-control::placeholder {
+    color: #AEFEFF;
+}
 
-    .form-control:active {
-        border-color: #4FBDBA;
-    }
+.form-control:active {
+    border-color: #4FBDBA;
+}
 
 .btn {
     background-color: #072227;
@@ -81,55 +81,133 @@ body {
     width: 1000px;
 }
 
-    .album-image {
-        min-height: 100px;
-        width: 100px;
-        background-size: cover;
+.album-image {
+    min-height: 100px;
+    width: 100px;
+    background-size: cover;
+}
+
+.player-controls {
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.5rem;
+    flex: 3;
+}
+
+    .player-controls .control {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #072227;
+        margin: 0 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
 
-    .player-controls {
-        align-items: center;
-        justify-content: center;
-        margin-top: 2.5rem;
-        flex: 3;
+    .player-controls .control:hover {
+        background-color: #000;
     }
-        progress {
-            width: 90%;
-        }
 
-        progress[value] {
-            -webkit-appearance: none;
-            appearance: none;
-            background-color: white;
-            color: blue;
-            height: 5px;
-        }
+p {
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
 
-        progress[value]::-webkit-progress-bar {
-            background-color: white;
-            border-radius: 2px;
-            border: 1px solid lighten(#acacac, 20%);
-            color: blue;
-        }
-
-        progress::-webkit-progress-value {
-            background-color: blue;
-        }
-
-        p {
-            font-size: 1.6rem;
-        } 
-    /* } */
-
-  #play-btn {
-        background-image: url('http://imgur.com/JzQP8td.png');
-        background-size: cover;
-        width: 75px;
-        height: 75px;
-        margin: 2rem 0 2rem 2rem; 
-/* 
+#play-btn {
+    background-image: url('http://imgur.com/JzQP8td.png');
+    background-size: cover;
+    color: #fff;
+    width: 75px;
+    height: 75px;
+    margin: 2rem 0 2rem 2rem;
+    /* 
         &.pause {
             background-image: url('http://imgur.com/MbJn41l.png');
         }  */
-     } 
-/* } */
+}
+
+.playAndStopButton {
+    background-color: #072227;
+    border: #072227;
+    color: #fff;
+    font-size: 25px;
+    padding-top: 13px;
+    padding-bottom: 6px;
+    padding-left: 165px;
+    padding-right: 165px;
+
+}
+
+    .playAndStopButton:hover {
+        background-color: #000;
+    }
+
+
+/************************************************************************************/
+
+.copyright-text {
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+    
+}
+
+.social-icons {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    text-align: right;
+}
+
+.social-icons li {
+    display: inline-block;
+    margin-bottom: 4px
+}
+
+.social-icons a {
+    background-color: #eceeef;
+    color: #818a91;
+    font-size: 20px;
+    display: inline-block;
+    line-height: 44px;
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    margin-right: 12px;
+    border-radius: 100%;
+    -webkit-transition: all .2s linear;
+    -o-transition: all .2s linear;
+    transition: all .2s linear
+}
+
+.social-icons a:active,
+.social-icons a:focus,
+.social-icons a:hover {
+    color: #fff;
+    background-color: #29aafe
+}
+
+.social-icons.size-sm a {
+    line-height: 34px;
+    height: 34px;
+    width: 34px;
+    font-size: 14px
+}
+
+.social-icons a.facebook:hover {
+    background-color: #3b5998
+}
+
+.social-icons a.twitter:hover {
+    background-color: #00aced
+}
+
+.social-icons a.linkedin:hover {
+    background-color: #007bb6
+}
+
+.social-icons a.dribbble:hover {
+    background-color: #ea4c89
+}

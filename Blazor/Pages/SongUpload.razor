@@ -7,7 +7,7 @@
 @inject IWebHostEnvironment Environment
 
 <head>
-    <PageTitle>Music Player</PageTitle>
+    <PageTitle>Cloud Music</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
@@ -18,9 +18,8 @@
     </header>
     <main>
         <div class="container">
-            <div class="row">
-                <div class="col-md-12 uploadClass">
-                    <h3>Upload Files</h3>
+            <div class="row ">
+                <div class="col-md-12 uploadClass ">
                     <p>
                     <h4>
                         Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
@@ -30,7 +29,9 @@
 
                     @if (isLoading)
                     {
-                        <p>Uploading...</p>
+                        <div class="spinner-border text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     }
                     else
                     {
@@ -63,7 +64,7 @@
         </div>
     </main>
     <footer>
-
+        
     </footer>
 </body>
 
