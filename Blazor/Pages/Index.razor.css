@@ -132,11 +132,11 @@ p {
     background-color: #072227;
     border: #072227;
     color: #fff;
-    font-size: 25px;
-    padding-top: 13px;
+    font-size: 22px;
+    padding-top: 14px;
     padding-bottom: 6px;
-    padding-left: 165px;
-    padding-right: 165px;
+    /*padding-left: 165px;
+    padding-right: 165px; */
 
 }
 
