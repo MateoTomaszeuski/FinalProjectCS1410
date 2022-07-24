@@ -92,10 +92,9 @@
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: 30%"></div>
                                             </div>
-
-
+                                            @duration
                                         }
-                                        else
+                                        else if (hidden)
                                         {
                                             <audio muted id="player">
                                                 <source src="@path" />
@@ -103,8 +102,8 @@
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: 30%"></div>
                                             </div>
+                                            @duration
                                         }
-                                        @* @duration.ToString() *@
                                     </div>
                                 </span>
                             </div>
@@ -135,16 +134,16 @@
 </html>
 @code {
     private string? DirectorySongs;
-    public string? SelectedSong { get; set; }
+    public string? SelectedSong { get; set; } = "";
     public string[]? NameAndPath { get; set; }
     public string? path { get; set; }
     public string? Songname { get; set; }
-    public TimeSpan duration = new TimeSpan();
+    public string duration { get; set; }
     bool hidden = true;
     private void SelectedSongChanged(ChangeEventArgs e)
     {
         string selectedSong;
-        string[] nameAndPath =new string[] { };
+        string[] nameAndPath = new string[] { };
         string temppath = "";
         string songname = "";
         selectedSong = (string?)e?.Value;
@@ -153,6 +152,7 @@
         NameAndPath = nameAndPath;
         path = temppath;
         Songname = songname;
+        @* GetAudioDuration(); *@
     }
     List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
@@ -162,11 +162,7 @@
     }
     private void GetAudioDuration()
     {
-        using (var shell = ShellObject.FromParsingName(DirectorySongs))
-        {
-            IShellProperty prop = shell.Properties.System.Media.Duration;
-            var t = (ulong)prop.ValueAsObject;
-            duration = TimeSpan.FromTicks((long)t);
-        }
+        ShellFile so = ShellFile.FromFilePath(path);
+        duration = so.Properties.System.Media.Duration.Value.ToString();
     }
 }
