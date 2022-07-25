@@ -9,34 +9,35 @@ th {
 .btn {
     border: 1px solid #fff;
     border-radius: 10px;
-  }
-  
-  .btn:hover {
-      background-color: #fff;
-      color: #35858B;
-  }
-  
-  
-  .searchColor {
-      background-color: #35858B;
-      border-bottom: #35858B;
-  }
-  
-  .form-control {
-      background-color: #4FBDBA;
-  }
-  
-      .form-control:focus {
-          background-color: #4FBDBA;
-      }
-  
-      .form-control::placeholder {
-          color: #AEFEFF;
-      }
-  
-      .form-control:active {
-          border-color: #4FBDBA;
-      }
+    background-color: #072227;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #fff;
+    color: #35858B;
+}
+
+.searchColor {
+    background-color: #35858B;
+    border-bottom: #35858B;
+}
+
+.form-control {
+    background-color: #4FBDBA;
+}
+
+.form-control:focus {
+    background-color: #4FBDBA;
+}
+
+.form-control::placeholder {
+    color: #AEFEFF;
+}
+
+.form-control:active {
+    border-color: #4FBDBA;
+}
 
 main {
     margin-top: 70px;

@@ -74,3 +74,7 @@ th {
     background-color: #fff;
     color: #000;
 }
+
+.moveButon {
+    text-align: right;
+}

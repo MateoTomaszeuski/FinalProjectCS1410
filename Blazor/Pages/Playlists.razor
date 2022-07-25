@@ -7,7 +7,7 @@
 @inject IWebHostEnvironment Environment
 
 <head>
-    <PageTitle>Music Player</PageTitle>
+    <PageTitle>Cloud Music</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
@@ -26,19 +26,21 @@
                                 <th>Name</th>
                                 <th>Songs</th>
                                 <th class="move">
-                                   <div class="col-md-10">
-                                     <div class="top-row searchColor">
-                                        <div class="input-group">
-                                            <input type="search" class="form-control rounded"
-                                                placeholder="Search your favorite playlist..." aria-label="Search"
-                                                aria-describedby="search-addon" />
-                                            <button type="button" class="btn">
-                                                <i class="material-icons differentColor">search</i>
-                                                @* Cloud Music *@
-                                            </button>
+                                    <div class="col-md-10">
+                                        <div class="top-row searchColor">
+                                            <div class="input-group">
+                                                <input type="search" class="form-control rounded"
+                                                    placeholder="Search your favorite playlist..." aria-label="Search"
+                                                    aria-describedby="search-addon" />
+                                                <button type="button" class="btn">
+                                                    <i class="material-icons differentColor">search</i>
+                                                </button>
+                                            </div>
+                                            <i class=" moveButon material-icons">search</i>
                                         </div>
+                                        @* <div class="moveButon col-md-2">
+                                        </div> *@
                                     </div>
-                                   </div>
                                 </th>
                             </tr>
                         </thead>
