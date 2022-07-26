@@ -173,6 +173,7 @@
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
+         System.IO.Directory.CreateDirectory(DirectorySongs);
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
     private void PlayStop()
