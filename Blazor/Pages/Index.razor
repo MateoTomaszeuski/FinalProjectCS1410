@@ -50,9 +50,16 @@
                                             <i class="material-icons differentColor">skip_next</i>
                                         </a>
                                         <a class="borders" href="">
-                                            <button class="playAndStopButton" @onclick="PlayStop"> @(hidden ?
-                                                "Play" :
-                                                "Stop")
+                                            <button class="playAndStopButton" @onclick="PlayStop">
+                                                @if (!hidden)
+                                                {
+                                                    <i class="material-icons differentColor">play_circle_filled</i>
+                                                }
+                                                else if (hidden)
+                                                {
+                                                    <i class="material-icons differentColor">play_circle_filled</i>
+                                                    //necesitamos un boton de pausa
+                                                }
                                             </button>
                                         </a>
                                         <a href="">
@@ -86,7 +93,8 @@
                                         @if (!hidden)
                                         {
                                             <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
-                                                <source src="@path" />
+
+                                                <source src="@path#t=00:@currenttime" />
                                             </audio>
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
@@ -96,7 +104,8 @@
                                         else if (hidden)
                                         {
                                             <audio muted id="player">
-                                                <source src="@path" />
+
+                                                <source src="@path#t=00:@currenttime" />
                                             </audio>
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
@@ -139,25 +148,22 @@
     public string? path { get; set; }
     public string? fullPath { get; set; }
     public string? Songname { get; set; }
-<<<<<<< HEAD
-    @* public string duration { get; set; } = "not modified"; *@
-=======
->>>>>>> 4187cdaa41b49ba4846c72c0b76cc67012e87034
     public string duration { get; set; } = "";
     public string currenttime { get; set; }
     public string timeline { get; set; }
     private int totalMin { get; set; }
-    private int currentMin { get; set; }
+    private int currentMin { get; set; } = 0;
     private int totalSec { get; set; }
-    private int currentSec { get; set; }
+    private int currentSec { get; set; } = 0;
     private double percentaje { get; set; }
     bool hidden = true;
-    Timer timer = new Timer();
+    Timer timer;
     private void displaytimeupdate()
     {
         timeline = currenttime + "/" + duration;
         getpercentaje();
-    }    private void SelectedSongChanged(ChangeEventArgs e)
+    }
+    private void SelectedSongChanged(ChangeEventArgs e)
     {
         string selectedSong;
         string[] nameAndPath = new string[] { };
@@ -177,21 +183,16 @@
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
-         System.IO.Directory.CreateDirectory(DirectorySongs);
+        System.IO.Directory.CreateDirectory(DirectorySongs);
 
         Song.AddSongsToList(DirectorySongs, ref SongList);
 
-<<<<<<< HEAD
-        var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
-        Console.WriteLine(path);
-        System.IO.Directory.CreateDirectory(path);
-=======
->>>>>>> 4187cdaa41b49ba4846c72c0b76cc67012e87034
     }
     private void PlayStop()
     {
         if (hidden)
         {
+            timer = new Timer();
             timer.Interval = 900;
             timer.Elapsed += TimerOnElapsed;
             timer.Start();
@@ -205,16 +206,25 @@
         }
     }
     DateTime atCall = DateTime.MinValue;
+    private int secCount = 0;
+    private int minCount = 0;
     private void TimerOnElapsed(object sender, ElapsedEventArgs e)
     {
-        if (atCall == DateTime.MinValue)
+        secCount++;
+        if (secCount == 60)
         {
-            atCall = e.SignalTime;
+            minCount++;
         }
-        TimeSpan zero = DateTime.Now - atCall;
-        currentMin = zero.Minutes;
-        currentSec = zero.Seconds;
-        currenttime = Path.Combine(zero.Minutes + ":" + zero.Seconds);
+        currentSec = secCount;
+        currentMin = minCount;
+        if (secCount < 10)
+        {
+            currenttime = "0" + currentMin.ToString() + ":" + "0" + currentSec.ToString();
+        }
+        else
+        {
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+        }
     }
     public void Dispose()
     {
@@ -231,7 +241,14 @@
         int s_seconds = s_time % 60;
         totalMin = s_minutes;
         totalSec = s_seconds;
-        duration = s_minutes.ToString() + ":" + s_seconds.ToString();
+        if (totalSec < 10)
+        {
+            duration = "0" + s_minutes.ToString() + ":" + "0" + s_seconds.ToString();
+        }
+        else
+        {
+            duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+        }
     }
 
     private void getpercentaje()
