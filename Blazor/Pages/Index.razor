@@ -3,10 +3,10 @@
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
-@using Microsoft.WindowsAPICodePack.Shell
-@using Microsoft.WindowsAPICodePack.Shell.PropertySystem
+@using System.Timers
 @inject ILogger<Index> Logger
 @inject IWebHostEnvironment Environment
+@implements IDisposable
 
 <html>
 
@@ -50,7 +50,7 @@
                                             <i class="material-icons differentColor">skip_next</i>
                                         </a>
                                         <a class="borders" href="">
-                                            <button class="playAndStopButton" @onclick=@(()=>hidden=!hidden)>@(hidden ?
+                                            <button class="playAndStopButton" @onclick="PlayStop"> @(hidden ?
                                                 "Play" :
                                                 "Stop")
                                             </button>
@@ -85,13 +85,13 @@
                                     <div class="card-body">
                                         @if (!hidden)
                                         {
-                                            <audio autoplay id="player" ontimeupdate="initProgressBar()">
+                                            @* <audio autoplay id="player" @ontimeupdate="displaytimeupdate"> *@
                                                 <source src="@path" />
-                                            </audio>
+                                            @* </audio> *@
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 30%"></div>
+                                                <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
                                             </div>
-                                            @duration
+                                            @timeline
                                         }
                                         else if (hidden)
                                         {
@@ -99,9 +99,10 @@
                                                 <source src="@path" />
                                             </audio>
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 30%"></div>
+                                                <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
                                             </div>
-                                            @duration
+                                            @timeline
+
                                         }
                                     </div>
                                 </span>
@@ -136,9 +137,27 @@
     public string? SelectedSong { get; set; } = "";
     public string[]? NameAndPath { get; set; }
     public string? path { get; set; }
+    public string? fullPath { get; set; }
     public string? Songname { get; set; }
+
     public string duration { get; set; } = "";
     bool hidden = true;
+
+    @* public string duration { get; set; } = "not modified"; *@
+    public string currenttime { get; set; }
+    public string timeline { get; set; }
+    private int totalMin { get; set; }
+    private int currentMin { get; set; }
+    private int totalSec { get; set; }
+    private int currentSec { get; set; }
+    private double percentaje { get; set; }
+    @* bool hidden = true; *@
+    Timer timer = new Timer();
+    @* private void displaytimeupdate()
+    {
+        timeline = currenttime + "/" + duration;
+        getpercentaje();
+    } *@
 
     private void SelectedSongChanged(ChangeEventArgs e)
     {
@@ -152,7 +171,9 @@
         NameAndPath = nameAndPath;
         path = temppath;
         Songname = songname;
-        @* GetAudioDuration(); *@
+        fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
+
+        AudioDuration(fullPath);
     }
     List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
@@ -164,9 +185,57 @@
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
-    private void GetAudioDuration()
+    private void PlayStop()
     {
-        ShellFile so = ShellFile.FromFilePath(path);
-        duration = so.Properties.System.Media.Duration.Value.ToString();
+        if (hidden)
+        {
+            timer.Interval = 900;
+            timer.Elapsed += TimerOnElapsed;
+            timer.Start();
+            hidden = false;
+        }
+        else
+        {
+            hidden = true;
+            atCall = DateTime.MinValue;
+            timer.Stop();
+        }
+    }
+    DateTime atCall = DateTime.MinValue;
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        if (atCall == DateTime.MinValue)
+        {
+            atCall = e.SignalTime;
+        }
+        TimeSpan zero = DateTime.Now - atCall;
+        currentMin = zero.Minutes;
+        currentSec = zero.Seconds;
+        currenttime = Path.Combine(zero.Minutes + ":" + zero.Seconds);
+    }
+    public void Dispose()
+    {
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+    }
+    private void AudioDuration(string FileFullPath)
+    {
+        @* TagLib.File file = TagLib.File.Create(FileFullPath); *@
+        @* int s_time = (int)file.Properties.Duration.TotalSeconds; *@
+        @* int s_minutes = s_time / 60;
+        int s_seconds = s_time % 60; *@
+        @* totalMin = s_minutes;
+        totalSec = s_seconds;
+        duration = s_minutes.ToString() + ":" + s_seconds.ToString(); *@
+    }
+
+    private void getpercentaje()
+    {
+        double totaltime = (totalMin * 60) + totalSec;
+        double currenttime = (currentMin * 60) + currentSec;
+        double totalpercentaje = (currenttime / totaltime) * 100;
+        percentaje = totalpercentaje;
     }
 }
