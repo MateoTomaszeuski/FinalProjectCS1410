@@ -1,5 +1,10 @@
 body {
     background-color: #35858B;
+    /* height: 100vh; */
+}
+
+main {
+    height: 100vh;
 }
 
 .material-icons {
@@ -137,6 +142,8 @@ p {
     margin: 0;
     font-size: 14px;
     text-align: left;
+    /* padding-bottom: 20px;
+    margin-bottom: 20px; */
     
 }
 
@@ -149,7 +156,6 @@ p {
 
 .social-icons li {
     display: inline-block;
-    margin-bottom: 4px
 }
 
 .social-icons a {
@@ -209,4 +215,10 @@ p {
                 
 .progress-bar {
     background-color: #d3b014;
+}
+
+.timeLine {
+    color: #fff;
+    margin-top: 20px;
+    font-size: 25px;
 }
