@@ -137,8 +137,9 @@
     public string[]? NameAndPath { get; set; }
     public string? path { get; set; }
     public string? Songname { get; set; }
-    public string duration { get; set; }
+    public string duration { get; set; } = "";
     bool hidden = true;
+
     private void SelectedSongChanged(ChangeEventArgs e)
     {
         string selectedSong;
@@ -156,6 +157,10 @@
     List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
     {
+        var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
+        Console.WriteLine(path);
+        System.IO.Directory.CreateDirectory(path);
+
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }

@@ -28,4 +28,6 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+// var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs", file.Name);
+
 app.Run();
