@@ -211,3 +211,8 @@ p {
 .social-icons a.dribbble:hover {
     background-color: #ea4c89
 }
+
+.barNewColors {
+    background-color: black;
+    color: white;
+}

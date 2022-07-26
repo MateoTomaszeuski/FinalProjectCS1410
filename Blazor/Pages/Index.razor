@@ -29,7 +29,6 @@
                                 aria-describedby="search-addon" />
                             <button type="button" class="btn">
                                 <i class="material-icons differentColor">search</i>
-                                @* Cloud Music *@
                             </button>
                         </div>
                     </div>
@@ -67,7 +66,7 @@
                 </div>
             </div>
             <h1>
-                <select class="form-control" @onchange="SelectedSongChanged">
+                <select class="form-control barNewColors" @onchange="SelectedSongChanged">
 
                     @foreach (var Song in SongList)
                     {

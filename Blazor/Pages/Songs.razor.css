@@ -78,3 +78,12 @@ th {
 .moveButton {
     text-align: right;
 }
+
+.move {
+    width: 0%;
+}
+
+.input-group {
+    width: 50%;
+}
+
