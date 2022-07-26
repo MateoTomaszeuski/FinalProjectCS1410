@@ -77,7 +77,6 @@
                 {
                     <div class="row">
                         <div class="audio-player">
-                            <div id="play-btn"></div>
                             <div class="audio-wrapper" id="player-container" href="javascript:;"> </div>
                             <div class="player-controls scrubber">
                                 <p>@Songname</p>
@@ -139,10 +138,7 @@
     public string? path { get; set; }
     public string? fullPath { get; set; }
     public string? Songname { get; set; }
-<<<<<<< HEAD
     @* public string duration { get; set; } = "not modified"; *@
-=======
->>>>>>> 4187cdaa41b49ba4846c72c0b76cc67012e87034
     public string duration { get; set; } = "";
     public string currenttime { get; set; }
     public string timeline { get; set; }
@@ -181,12 +177,10 @@
 
         Song.AddSongsToList(DirectorySongs, ref SongList);
 
-<<<<<<< HEAD
+
         var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Console.WriteLine(path);
         System.IO.Directory.CreateDirectory(path);
-=======
->>>>>>> 4187cdaa41b49ba4846c72c0b76cc67012e87034
     }
     private void PlayStop()
     {

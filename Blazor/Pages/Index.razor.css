@@ -115,18 +115,6 @@ p {
     color: #fff;
 }
 
-#play-btn {
-    background-image: url('http://imgur.com/JzQP8td.png');
-    background-size: cover;
-    color: #fff;
-    width: 75px;
-    height: 75px;
-    margin: 2rem 0 2rem 2rem;
-    /* 
-        &.pause {
-            background-image: url('http://imgur.com/MbJn41l.png');
-        }  */
-}
 
 .playAndStopButton {
     background-color: #072227;
@@ -135,8 +123,6 @@ p {
     font-size: 22px;
     padding-top: 14px;
     padding-bottom: 6px;
-    /*padding-left: 165px;
-    padding-right: 165px; */
 
 }
 
