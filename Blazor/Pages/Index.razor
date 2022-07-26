@@ -85,9 +85,9 @@
                                     <div class="card-body">
                                         @if (!hidden)
                                         {
-                                            @* <audio autoplay id="player" @ontimeupdate="displaytimeupdate"> *@
+                                            <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
                                                 <source src="@path" />
-                                            @* </audio> *@
+                                            </audio>
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
                                             </div>
@@ -139,11 +139,7 @@
     public string? path { get; set; }
     public string? fullPath { get; set; }
     public string? Songname { get; set; }
-
-    public string duration { get; set; } = "";
-    bool hidden = true;
-
-    @* public string duration { get; set; } = "not modified"; *@
+    public string duration { get; set; } = "not modified";
     public string currenttime { get; set; }
     public string timeline { get; set; }
     private int totalMin { get; set; }
@@ -151,15 +147,13 @@
     private int totalSec { get; set; }
     private int currentSec { get; set; }
     private double percentaje { get; set; }
-    @* bool hidden = true; *@
+    bool hidden = true;
     Timer timer = new Timer();
-    @* private void displaytimeupdate()
+    private void displaytimeupdate()
     {
         timeline = currenttime + "/" + duration;
         getpercentaje();
-    } *@
-
-    private void SelectedSongChanged(ChangeEventArgs e)
+    }    private void SelectedSongChanged(ChangeEventArgs e)
     {
         string selectedSong;
         string[] nameAndPath = new string[] { };
@@ -178,10 +172,6 @@
     List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
     {
-        var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
-        Console.WriteLine(path);
-        System.IO.Directory.CreateDirectory(path);
-
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
@@ -222,13 +212,13 @@
     }
     private void AudioDuration(string FileFullPath)
     {
-        @* TagLib.File file = TagLib.File.Create(FileFullPath); *@
-        @* int s_time = (int)file.Properties.Duration.TotalSeconds; *@
-        @* int s_minutes = s_time / 60;
-        int s_seconds = s_time % 60; *@
-        @* totalMin = s_minutes;
+        TagLib.File file = TagLib.File.Create(FileFullPath);
+        int s_time = (int)file.Properties.Duration.TotalSeconds;
+        int s_minutes = s_time / 60;
+        int s_seconds = s_time % 60;
+        totalMin = s_minutes;
         totalSec = s_seconds;
-        duration = s_minutes.ToString() + ":" + s_seconds.ToString(); *@
+        duration = s_minutes.ToString() + ":" + s_seconds.ToString();
     }
 
     private void getpercentaje()
