@@ -139,9 +139,7 @@
     public string? path { get; set; }
     public string? fullPath { get; set; }
     public string? Songname { get; set; }
-    public string duration { get; set; } = "not modified";
-    @* Me sirve ese duration vacio, si puedes usar un nombre diferente me funciona *@
-    @* public string duration { get; set; } = ""; *@
+    public string duration { get; set; } = "";
     public string currenttime { get; set; }
     public string timeline { get; set; }
     private int totalMin { get; set; }
@@ -176,11 +174,9 @@
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
          System.IO.Directory.CreateDirectory(DirectorySongs);
+
         Song.AddSongsToList(DirectorySongs, ref SongList);
 
-        @* var path = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
-        Console.WriteLine(path);
-        System.IO.Directory.CreateDirectory(path); *@
     }
     private void PlayStop()
     {
