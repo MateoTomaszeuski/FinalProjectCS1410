@@ -41,6 +41,11 @@ th {
 
 main {
     min-height: 79.5vh;
+    background-color: #35858B;
+}
+
+footer {
+    background-color: #35858B;
 }
 
 .copyright-text {
@@ -149,9 +154,4 @@ p {
     font-size: 20px;
     text-align: center;
     color: #fff;
-}
-
-main {
-    min-height: 79.5vh;
-    background-color: #35858B;
 }
