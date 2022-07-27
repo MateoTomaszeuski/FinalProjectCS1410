@@ -8,12 +8,4 @@ public class Tests
     // {
     //     Assert.Pass();
     // }
-    [Test]
-
-    public void TestPlaPauseButton()
-    {
-        PlayPauseButton playPauseButton = new PlayPauseButton();
-        playPauseButton.State = true;
-        Assert.AreEqual(true, playPauseButton.State);
-    }
 }

@@ -1,7 +1,6 @@
 @page "/songs"
 @using System
 @using System.IO
-@using System.Collections;
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<Songs> Logger
@@ -10,7 +9,7 @@
 <head>
     <PageTitle>Music Player</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -60,7 +59,21 @@
                             @foreach (var song in @SongList)
                             {
                                 <tr>
-                                    <th>@song.Name</th>
+                                    <th>
+                                        @if (song.Name != "")
+                                        {
+                                            @song.Name
+                                            <button @onclick="() => GetSelectedSong(song.Name)" @onmouseup="PlaySong" > 
+                                                    <i class="material-icons differentColor">play_circle_filled</i>
+                                            </button>
+                                        }
+                                    </th>
+                                    @if (Play)
+                                    {
+                                        <audio autoplay>
+                                            <source src="@path" />
+                                        </audio>
+                                    }
                                 </tr>
                             }
                         </tbody>
@@ -86,11 +99,54 @@
 
 @code {
     private static List<Song> SongList = new();
-    public void GetSongs()  
+    private string SelectedSongasString;
+    private string[] NameAndPath;
+    private string path;
+    private string Songname;
+    private Song SelectedSongasSong;
+    private int songpositon;
+    bool Play = false;
+    private void GetSelectedSong(string SearchedSong)
+    {
+        for (int i = 0; i < SongList.Count; i++)
+        {
+            if (SearchedSong == SongList[i].Name)
+            {
+                songpositon = i;
+            }
+        }
+        string selectedSong = SongList[songpositon].ToString();
+        string[] nameAndPath = new string[] { };
+        string temppath = "";
+        string songname = "";
+        Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+        AssignValues(selectedSong, nameAndPath, temppath, songname);
+    }
+    public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
+    {
+        SelectedSongasString = selectedSong;
+        NameAndPath = nameAndPath;
+        path = temppath;
+        Songname = songname;
+        SelectedSongasSong = new Song(songname, path);
+    }
+    public void PlaySong()
+    {
+        if (Play)
+        {
+            Play = false;
+        }
+        else
+        {
+            Play = true;
+        }
+    }
+    public void GetSongs()
     {
         var DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
+
     protected override void OnInitialized()
     {
         GetSongs();
