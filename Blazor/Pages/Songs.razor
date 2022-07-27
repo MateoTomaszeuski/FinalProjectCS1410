@@ -23,14 +23,6 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <tr>
-                        <th class="bar1">
-                        </th>
-                    </tr>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>
@@ -49,7 +41,7 @@
                                             <input @bind="inputSong" type="search" class="form-control rounded"
                                                 placeholder="Search your favorite song..." aria-label="Search"
                                                 aria-describedby="search-addon" />
-                                            <button @onclick="() => GetSelectedSong(inputSong)">
+                                            <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
                                                 <i class="material-icons differentColor">search</i>
                                             </button>
 
@@ -70,7 +62,7 @@
                                         <th>
                                             @if (Song.Name != "")
                                             {
-                                                <button @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
+                                                <button class="btnSong" @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
                                                     @Song.Name</button>
                                             }
                                         </th>
@@ -85,7 +77,7 @@
                                         <th>
                                             @if (song.Name != "")
                                             {
-                                                <button @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
+                                                <button class="btnSong" @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @song.Name</button>
                                             }
                                         </th>
