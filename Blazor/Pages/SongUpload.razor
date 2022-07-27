@@ -9,7 +9,7 @@
 <head>
     <PageTitle>Cloud Music</PageTitle>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -22,12 +22,11 @@
             <div class="row ">
                 <div class="col-md-12 uploadClass ">
                     <p>
-                        <h4>
-                            Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
-                        </h4>
+                    <h4>
+                        Choose up to @maxAllowedFiles songs up to @maxFileSizeInMegabytes Megabytes:
+                    </h4>
                     </p>
                     <InputFile OnChange="@LoadFiles" multiple />
-
                     @if (isLoading)
                     {
                         <div class="spinner-border text-light" role="status">
@@ -55,7 +54,7 @@
                             @foreach (var file in InvalidLoadedFiles)
                             {
                                 <ul>
-                                    <li>Name: @file.Name: @Error</li>
+                                    <li>Name: @file.Name: <li>@Error</li></li>
                                 </ul>
                             }
                         </ul>
@@ -65,7 +64,7 @@
         </div>
     </main>
     <footer>
-          <div class="container">
+        <div class="container">
             <div class="rows">
                 <p class="copyright-text">Copyright &copy; 2022</p>
                 <ul class="social-icons">
@@ -97,7 +96,7 @@
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            if (file.ContentType == ValidContentType && file.Size <= maxFileSize)
+            if (file.ContentType == ValidContentType && file.Size <= maxFileSize && !file.Name.Contains(','))
             {
 
                 loadedFiles.Add(file);
@@ -116,6 +115,11 @@
             {
                 InvalidLoadedFiles.Add(file);
                 Error = "Invalid size";
+            }
+            else if (file.Name.Contains(','))
+            {
+                InvalidLoadedFiles.Add(file);
+                Error = "Coma in filename, please rename";
             }
         }
 
