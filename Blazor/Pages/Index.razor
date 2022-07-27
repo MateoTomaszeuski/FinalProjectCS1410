@@ -97,18 +97,46 @@
                 @if (SelectedSongasString != "")
                 {
                     <div class="row">
-                        <div class="audio-player">
-                            <div class="audio-wrapper" id="player-container" href="javascript:;"> </div>
-                            <div class="player-controls scrubber">
-                                <p>@Songname</p>
-                                <span id="seek-obj-container">
-                                    <div class="card-body">
-                                        @if (!Play)
-                                        {
-                                            @if (!Mute)
+                        <div class="col-md-12">
+                            <div class="audio-player">
+                                <div class="audio-wrapper" id="player-container" href="javascript:;"> </div>
+                                <div class="player-controls scrubber">
+                                    <p>@Songname</p>
+                                    <span id="seek-obj-container">
+                                        <div class="card-body">
+                                            @if (!Play)
                                             {
-                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
-                                        @onpause="nextSong">
+                                                @if (!Mute)
+                                                {
+                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                                                            @onpause="nextSong">
+                                                        <source src="@path#t=00:@currenttime" />
+                                                    </audio>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                    </div>
+                                                    <div class="timeLine">
+                                                        @timeline
+                                                    </div>
+                                                }
+                                                else if (Mute)
+                                                {
+                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                                                        @onpause="nextSong">
+                                                        <source src="/muted/zzz.mp3#t=00:@currenttime" />
+                                                    </audio>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                    </div>
+                                                    <div class="timeLine">
+                                                        @timeline
+                                                    </div>
+                                                }
+
+                                            }
+                                            else if (Play)
+                                            {
+                                                <audio muted id="player" @onactivate="displaytimeupdate">
                                                     <source src="@path#t=00:@currenttime" />
                                                 </audio>
                                                 <div class="progress">
@@ -118,35 +146,9 @@
                                                     @timeline
                                                 </div>
                                             }
-                                            else if (Mute)
-                                            {
-                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
-                                        @onpause="nextSong">
-                                                    <source src="/muted/zzz.mp3#t=00:@currenttime" />
-                                                </audio>
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
-                                                </div>
-                                                <div class="timeLine">
-                                                    @timeline
-                                                </div>
-                                            }
-
-                                        }
-                                        else if (Play)
-                                        {
-                                            <audio muted id="player" @onactivate="displaytimeupdate">
-                                                <source src="@path#t=00:@currenttime" />
-                                            </audio>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
-                                            </div>
-                                            <div class="timeLine">
-                                                @timeline
-                                            </div>
-                                        }
-                                    </div>
-                                </span>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
