@@ -51,11 +51,11 @@
                                         </a>
                                         <a class="borders" href="">
                                             <button class="playAndStopButton" @onclick="PlayStop">
-                                                @if (!hidden)
+                                                @if (!Play)
                                                 {
                                                     <i class="material-icons differentColor">play_circle_filled</i>
                                                 }
-                                                else if (hidden)
+                                                else if (Play)
                                                 {
                                                     <i class="material-icons differentColor">play_circle_filled</i>
                                                     //necesitamos un boton de pausa
@@ -63,7 +63,9 @@
                                             </button>
                                         </a>
                                         <a href="">
-                                            <i class="material-icons differentColor">volume_off</i>
+                                            <button class="playAndStopButton" @onclick="MuteUnmute">
+                                                <i class="material-icons differentColor">volume_off</i>
+                                            </button>
                                         </a>
                                     </div>
                                 </div>
@@ -80,7 +82,7 @@
                         <option value="@Song"> @Song.Name</option>
                     }
                 </select>
-                @if (SelectedSong != "")
+                @if (SelectedSongasString != "")
                 {
                     <div class="row">
                         <div class="audio-player">
@@ -89,10 +91,39 @@
                                 <p>@Songname</p>
                                 <span id="seek-obj-container">
                                     <div class="card-body">
-                                        @if (!hidden)
+                                        @if (!Play)
                                         {
-                                            <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
+                                            @if (!Mute)
+                                            {
+                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
 
+                                                    <source src="@path#t=00:@currenttime" />
+                                                </audio>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                </div>
+                                                <div class="timeLine">
+                                                    @timeline
+                                                </div>
+                                            }
+                                            else if (Mute)
+                                            {
+                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
+                                                    <source src="/muted/zzz.mp3#t=00:@currenttime" />
+                                                </audio>
+                                                @pathMuted
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                </div>
+                                                <div class="timeLine">
+                                                    @timeline
+                                                </div>
+                                            }
+
+                                        }
+                                        else if (Play)
+                                        {
+                                            <audio muted id="player">
                                                 <source src="@path#t=00:@currenttime" />
                                             </audio>
                                             <div class="progress">
@@ -101,18 +132,6 @@
                                             <div class="timeLine">
                                                 @timeline
                                             </div>
-                                        }
-                                        else if (hidden)
-                                        {
-                                            <audio muted id="player">
-
-                                                <source src="@path#t=00:@currenttime" />
-                                            </audio>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
-                                            </div>
-                                            @timeline
-
                                         }
                                     </div>
                                 </span>
@@ -128,8 +147,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul class="social-icons">
-                    <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved
-                    </p>
+                        <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved
+                        </p>
                         <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                         <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
                         <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
@@ -144,7 +163,9 @@
 </html>
 @code {
     private string? DirectorySongs;
-    public string? SelectedSong { get; set; } = "";
+    private string? pathMuted;
+    public string? SelectedSongasString { get; set; } = "";
+    public Song SelectedSongasSong { get; set; }
     public string[]? NameAndPath { get; set; }
     public string? path { get; set; }
     public string? fullPath { get; set; }
@@ -156,8 +177,10 @@
     private int currentMin { get; set; } = 0;
     private int totalSec { get; set; }
     private int currentSec { get; set; } = 0;
+    private int songpositon { get; set; }
     private double percentaje { get; set; }
-    bool hidden = true;
+    bool Play = true;
+    bool Mute = false;
     Timer timer;
     private void displaytimeupdate()
     {
@@ -172,13 +195,23 @@
         string songname = "";
         selectedSong = (string?)e?.Value;
         Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-        SelectedSong = selectedSong;
+        AssignValues(selectedSong, nameAndPath, temppath, songname);
+
+        AudioDuration(fullPath);
+        secCount = 0;
+        minCount = 0;
+        currentSec = 0;
+        currentMin = 0;
+        if (!Play) PlayStop();
+    }
+    public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
+    {
+        SelectedSongasString = selectedSong;
         NameAndPath = nameAndPath;
         path = temppath;
         Songname = songname;
+        SelectedSongasSong = new Song(songname, path);
         fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
-
-        AudioDuration(fullPath);
     }
     List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
@@ -189,19 +222,29 @@
         Song.AddSongsToList(DirectorySongs, ref SongList);
 
     }
-    private void PlayStop()
+    private void MuteUnmute()
     {
-        if (hidden)
+        if (Mute)
         {
-            timer = new Timer();
-            timer.Interval = 900;
-            timer.Elapsed += TimerOnElapsed;
-            timer.Start();
-            hidden = false;
+            Mute = false;
         }
         else
         {
-            hidden = true;
+            Mute = true;
+        }
+    }
+    private void PlayStop()
+    {
+        if (Play)
+        {
+            timer = new Timer(1000);
+            timer.Elapsed += TimerOnElapsed;
+            timer.Start();
+            Play = false;
+        }
+        else
+        {
+            Play = true;
             atCall = DateTime.MinValue;
             timer.Stop();
         }
@@ -214,6 +257,7 @@
         secCount++;
         if (secCount == 60)
         {
+            secCount = 0;
             minCount++;
         }
         currentSec = secCount;
@@ -257,6 +301,22 @@
         double totaltime = (totalMin * 60) + totalSec;
         double currenttime = (currentMin * 60) + currentSec;
         double totalpercentaje = (currenttime / totaltime) * 100;
+        if (totalpercentaje >= 99)
+        {
+            currentMin = 0;
+            currentSec = 0;
+            secCount = 0;
+            minCount = 0;
+
+            songpositon = SongList.BinarySearch(SelectedSongasSong);
+            string selectedSong;
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
+            selectedSong = SongList[songpositon + 1].ToString();
+            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(selectedSong, nameAndPath, temppath, songname);
+        }
         percentaje = totalpercentaje;
     }
 }
