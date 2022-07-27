@@ -41,6 +41,19 @@
                                 </h4>
                             }
                         </div>
+                        @if (!songwasfinded)
+                        {
+
+                            <h4>
+                                <select class="form-control barNewColors" @onchange="SelectedSongChanged">
+
+                                    @foreach (var Song in RecomendedSongList)
+                                    {
+                                        <option value="@Song"> @Song.Name</option>
+                                    }
+                                </select>
+                            </h4>
+                        }
                     </div>
                 </div>
             </div>
@@ -176,7 +189,7 @@
 @code {
     private string? DirectorySongs;
     private string? pathMuted;
-    public string SearchedSong { get; set; }
+    public string SearchedSong { get; set; } = "";
     public string? SelectedSongasString { get; set; } = "";
     public Song SelectedSongasSong { get; set; }
     public string[]? NameAndPath { get; set; }
@@ -223,16 +236,22 @@
             currentSec = 0;
             currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
             if (!Play) PlayStop();
+            if (FistSelection)
+            {
+                FistSelection = false;
+                PlayStop();
+            }
         }
         else
         {
             RecomendedSongList.Clear();
+            RecomendedSongList.Add(new Song("",""));
             songwasfinded = false;
-           for (int i = 0; i < SongList.Count; i++)
+            for (int i = 0; i < SongList.Count; i++)
             {
                 if (SongList[i].Name.ToUpper().Contains(SearchedSong.ToUpper()))
                 {
-                 RecomendedSongList.Add(SongList[i]);
+                    RecomendedSongList.Add(SongList[i]);
                 }
             }
         }
@@ -286,8 +305,10 @@
             PlayStop();
         }
     }
+    private bool FistSelection = true;
     private void SelectedSongChanged(ChangeEventArgs e)
     {
+        songwasfinded = true;
         string selectedSong;
         string[] nameAndPath = new string[] { };
         string temppath = "";
@@ -302,6 +323,11 @@
         currentSec = 0;
         currentMin = 0;
         if (!Play) PlayStop();
+        if (FistSelection)
+        {
+            FistSelection = false;
+            PlayStop();
+        }
     }
     public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
     {
