@@ -30,21 +30,13 @@
                             <button type="button" class="btn" @onclick="SearchSong">
                                 <i class="material-icons differentColor">search</i>
                             </button>
-                            @if(!songwasfinded)
-                            {
-                                <h4>
-                                    Are you searching for:
-                                     @foreach (var Song in RecomendedSongList)
-                                    {
-                                        <option value="@Song"> @Song.Name</option>
-                                    }
-                                </h4>
-                            }
+                           
                         </div>
                         @if (!songwasfinded)
                         {
 
                             <h4>
+                                Are you looking for:
                                 <select class="form-control barNewColors" @onchange="SelectedSongChanged">
 
                                     @foreach (var Song in RecomendedSongList)

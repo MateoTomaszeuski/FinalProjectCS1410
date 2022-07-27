@@ -3,8 +3,11 @@
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
+@using System.Timers
 @inject ILogger<Songs> Logger
 @inject IWebHostEnvironment Environment
+@implements IDisposable
+
 
 <head>
     <PageTitle>Songs</PageTitle>
@@ -43,35 +46,66 @@
                                 <th>
                                     <div class="top-row searchColor">
                                         <div class="input-group">
-                                            <input type="search" class="form-control rounded"
+                                            <input @bind="inputSong" type="search" class="form-control rounded"
                                                 placeholder="Search your favorite song..." aria-label="Search"
                                                 aria-describedby="search-addon" />
-                                            <button type="button" class="btn">
+                                            <button @onclick="() => GetSelectedSong(inputSong)">
                                                 <i class="material-icons differentColor">search</i>
                                             </button>
+
                                         </div>
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <button class="reloadButton" @onclick="GetSongs">Reload List</button>
-                            @foreach (var song in @SongList)
+                            @if (!songwasfinded)
                             {
-                                <tr>
-                                    <th>
-                                        @if (song.Name != "")
-                                        {
-                                            <button @onclick="() => GetSelectedSong(song.Name)" @onmouseup="PlaySong"> @song.Name</button>
-                                        }
-                                    </th>
-                                    @if (Play)
-                                    {
-                                        <audio autoplay>
-                                            <source src="@path" />
-                                        </audio>
-                                    }
-                                </tr>
+                                <h4>
+                                    Are you looking for:
+                                </h4>
+                                @foreach (var Song in RecomendedSongList)
+                                {
+                                    <tr>
+                                        <th>
+                                            @if (Song.Name != "")
+                                            {
+                                                <button @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
+                                                    @Song.Name</button>
+                                            }
+                                        </th>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                @foreach (var song in @SongList)
+                                {
+                                    <tr>
+                                        <th>
+                                            @if (song.Name != "")
+                                            {
+                                                <button @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
+                                                    @song.Name</button>
+                                            }
+                                        </th>
+                                    </tr>
+                                }
+                                <p>@Songname</p>
+                                @if (!Play)
+                                {
+                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                                @onpause="nextSong">
+                                        <source src="@path" />
+                                    </audio>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                    </div>
+                                    <div class="timeLine">
+                                        @timeline
+
+                                    </div>
+                                }
                             }
                         </tbody>
                     </table>
@@ -97,13 +131,18 @@
 
 @code {
     private static List<Song> SongList = new();
-    private string SelectedSongasString;
-    private string[] NameAndPath;
-    private string path;
-    private string Songname;
-    private Song SelectedSongasSong;
-    private int songpositon;
-    bool Play = false;
+    private static List<Song> RecomendedSongList = new();
+    private string inputSong { get; set; }
+    private string SelectedSongasString { get; set; }
+    private string[] NameAndPath { get; set; }
+    private string path { get; set; }
+    private string Songname { get; set; }
+    private Song SelectedSongasSong { get; set; }
+    private int songpositon { get; set; } = -1;
+    bool Play = true;
+    bool songwasfinded = true;
+    public Timer timer { get; set; } = new Timer();
+
     private void GetSelectedSong(string SearchedSong)
     {
         for (int i = 0; i < SongList.Count; i++)
@@ -113,12 +152,73 @@
                 songpositon = i;
             }
         }
-        string selectedSong = SongList[songpositon].ToString();
-        string[] nameAndPath = new string[] { };
-        string temppath = "";
-        string songname = "";
-        Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-        AssignValues(selectedSong, nameAndPath, temppath, songname);
+        if (songpositon != -1)
+        {
+            string selectedSong = SongList[songpositon].ToString();
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
+            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AudioDuration(fullPath);
+        }
+        else
+        {
+            RecomendedSongList.Clear();
+            RecomendedSongList.Add(new Song("", ""));
+            songwasfinded = false;
+            for (int i = 0; i < SongList.Count; i++)
+            {
+                if (SongList[i].Name.ToUpper().Contains(SearchedSong.ToUpper()))
+                {
+                    RecomendedSongList.Add(SongList[i]);
+                }
+            }
+        }
+
+    }
+    private string fullPath { get; set; }
+    private void nextSong()
+    {
+        if (!Play)
+        {
+            PlaySong();
+            for (int i = 0; i < SongList.Count; i++)
+            {
+
+                if (Songname == SongList[i].Name)
+                {
+                    songpositon = i;
+                    break;
+                }
+            }
+            string selectedSong;
+            if (songpositon + 2 > SongList.Count)
+            {
+                selectedSong = SongList[1].ToString();
+            }
+            else
+            {
+                selectedSong = SongList[songpositon + 1].ToString();
+
+            }
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
+            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AudioDuration(fullPath);
+
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+        }
+        else
+        {
+            PlaySong();
+        }
     }
     public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
     {
@@ -127,26 +227,113 @@
         path = temppath;
         Songname = songname;
         SelectedSongasSong = new Song(songname, path);
+        fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
     }
+    private bool isfirstclick = true;
     public void PlaySong()
     {
         if (Play)
         {
+            songwasfinded = true;
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+
+            timer = new Timer(1000);
+            timer.Elapsed += TimerOnElapsed;
+            timer.Start();
             Play = false;
         }
         else
         {
+
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+            timer.Stop();
             Play = true;
         }
+
     }
     public void GetSongs()
     {
         var DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
-
+    public string DirectorySongs { get; set; }
     protected override void OnInitialized()
     {
+        DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         GetSongs();
+    }
+    private int secCount { get; set; } = 0;
+    private int minCount { get; set; } = 0;
+    private int currentMin { get; set; }
+    private int currentSec { get; set; }
+    private string currenttime { get; set; }
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        secCount++;
+        if (secCount == 60)
+        {
+            secCount = 0;
+            minCount++;
+        }
+        currentSec = secCount;
+        currentMin = minCount;
+        if (secCount < 10)
+        {
+            currenttime = "0" + currentMin.ToString() + ":" + "0" + currentSec.ToString();
+        }
+        else
+        {
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+        }
+    }
+    public void Dispose()
+    {
+        if (timer != null)
+        {
+            timer.Dispose();
+        }
+    }
+    private int totalMin { get; set; }
+    private int totalSec { get; set; }
+    private string duration { get; set; }
+
+    private void AudioDuration(string FileFullPath)
+    {
+        TagLib.File file = TagLib.File.Create(FileFullPath);
+        int s_time = (int)file.Properties.Duration.TotalSeconds;
+        int s_minutes = s_time / 60;
+        int s_seconds = s_time % 60;
+        totalMin = s_minutes;
+        totalSec = s_seconds;
+        if (totalSec < 10)
+        {
+            duration = "0" + s_minutes.ToString() + ":" + "0" + s_seconds.ToString();
+        }
+        else
+        {
+            duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+        }
+    }
+    public double percentaje { get; set; }
+    private void getpercentaje()
+    {
+        double totaltime = (totalMin * 60) + totalSec;
+        double currenttime = (currentMin * 60) + currentSec;
+        double totalpercentaje = (currenttime / totaltime) * 100;
+        percentaje = totalpercentaje;
+    }
+    public string timeline { get; set; }
+    private void displaytimeupdate()
+    {
+        timeline = currenttime + "/" + duration;
+        getpercentaje();
     }
 }
