@@ -54,7 +54,7 @@ main {
 .form-control {
     background-color: #4FBDBA;
     height: 40px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .form-control:focus {
@@ -140,11 +140,8 @@ p {
 
 .copyright-text {
     margin: 0;
-    font-size: 14px;
-    text-align: left;
-    /* padding-bottom: 20px;
-    margin-bottom: 20px; */
-    
+    font-size: 18px;
+    margin-right: 35px;    
 }
 
 .social-icons {
@@ -167,7 +164,7 @@ p {
     width: 44px;
     height: 44px;
     text-align: center;
-    margin-right: 12px;
+    margin-right: 20px;
     border-radius: 100%;
     -webkit-transition: all .2s linear;
     -o-transition: all .2s linear;
@@ -221,4 +218,17 @@ p {
     color: #fff;
     margin-top: 20px;
     font-size: 25px;
+}
+
+.rows{
+    /* background: #A8C7D6; */
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+   
+
+.social-icons {
+    text-align: center;
 }
