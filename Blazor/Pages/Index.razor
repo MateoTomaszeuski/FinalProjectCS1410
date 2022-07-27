@@ -24,12 +24,22 @@
                 <div class="col-md-12">
                     <div class="top-row searchColor">
                         <div class="input-group">
-                            <input type="search" class="form-control rounded"
+                            <input @bind="SearchedSong" type="search" class="form-control rounded"
                                 placeholder="Search your favorite music..." aria-label="Search"
                                 aria-describedby="search-addon" />
-                            <button type="button" class="btn">
+                            <button type="button" class="btn" @onclick="SearchSong">
                                 <i class="material-icons differentColor">search</i>
                             </button>
+                            @if(!songwasfinded)
+                            {
+                                <h4>
+                                    Are you searching for:
+                                     @foreach (var Song in RecomendedSongList)
+                    {
+                        <option value="@Song"> @Song.Name</option>
+                    }
+                                </h4>
+                            }
                         </div>
                     </div>
                 </div>
@@ -97,7 +107,8 @@
                                         {
                                             @if (!Mute)
                                             {
-                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong" @onpause="nextSong">
+                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                                        @onpause="nextSong">
                                                     <source src="@path#t=00:@currenttime" />
                                                 </audio>
                                                 <div class="progress">
@@ -109,7 +120,8 @@
                                             }
                                             else if (Mute)
                                             {
-                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong" @onpause="nextSong">
+                                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                                        @onpause="nextSong">
                                                     <source src="/muted/zzz.mp3#t=00:@currenttime" />
                                                 </audio>
                                                 <div class="progress">
@@ -130,7 +142,7 @@
                                                 <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
                                             </div>
                                             <div class="timeLine">
-                                                @timeline   
+                                                @timeline
                                             </div>
                                         }
                                     </div>
@@ -161,6 +173,7 @@
 @code {
     private string? DirectorySongs;
     private string? pathMuted;
+    public string SearchedSong { get; set; }
     public string? SelectedSongasString { get; set; } = "";
     public Song SelectedSongasSong { get; set; }
     public string[]? NameAndPath { get; set; }
@@ -174,16 +187,60 @@
     private int currentMin { get; set; } = 0;
     private int totalSec { get; set; }
     private int currentSec { get; set; } = 0;
-    private int songpositon { get; set; }
+    private int songpositon { get; set; } = -1;
     private double percentaje { get; set; }
     bool Play = true;
     bool Mute = false;
+    bool songwasfinded = true;
     Timer timer;
+    private void SearchSong()
+    {
+        for (int i = 0; i < SongList.Count; i++)
+        {
+            if (SearchedSong == SongList[i].Name)
+            {
+                songpositon = i;
+                break;
+
+            }
+        }
+        if (songpositon != -1)
+        {
+            string selectedSong = SongList[songpositon].ToString();
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
+            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AudioDuration(fullPath);
+
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+            if (!Play) PlayStop();
+        }
+        else
+        {
+            RecomendedSongList.Clear();
+            songwasfinded = false;
+           for (int i = 0; i < SongList.Count; i++)
+            {
+                if (SongList[i].Name.ToUpper().Contains(SearchedSong.ToUpper()))
+                {
+                 RecomendedSongList.Add(SongList[i]);
+                }
+            }
+        }
+    }
     private void displaytimeupdate()
     {
         timeline = currenttime + "/" + duration;
         getpercentaje();
     }
+    List<Song> RecomendedSongList = new List<Song>();
+
     private void nextSong()
     {
         if (!Play)
@@ -199,9 +256,6 @@
                 }
             }
             string selectedSong;
-            string[] nameAndPath = new string[] { };
-            string temppath = "";
-            string songname = "";
             if (songpositon + 2 > SongList.Count)
             {
                 selectedSong = SongList[1].ToString();
@@ -209,8 +263,11 @@
             else
             {
                 selectedSong = SongList[songpositon + 1].ToString();
-                
+
             }
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
             Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
             AssignValues(selectedSong, nameAndPath, temppath, songname);
             AudioDuration(fullPath);
