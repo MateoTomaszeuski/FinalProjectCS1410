@@ -62,10 +62,7 @@
                                     <th>
                                         @if (song.Name != "")
                                         {
-                                            @song.Name
-                                            <button @onclick="() => GetSelectedSong(song.Name)" @onmouseup="PlaySong" > 
-                                                    <i class="material-icons differentColor">play_circle_filled</i>
-                                            </button>
+                                            <button @onclick="() => GetSelectedSong(song.Name)" @onmouseup="PlaySong"> @song.Name</button>
                                         }
                                     </th>
                                     @if (Play)
