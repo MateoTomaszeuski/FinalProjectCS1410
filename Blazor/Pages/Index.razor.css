@@ -3,7 +3,7 @@ body {
 }
 
 main {
-    height: 100vh;
+    min-height: 83vh;
 }
 
 .material-icons {
@@ -192,8 +192,12 @@ p {
     background-color: #00aced
 }
 
-.social-icons a.linkedin:hover {
-    background-color: #007bb6
+.social-icons a.whatsapp:hover {
+    background-color: green;
+}
+
+.social-icons a.instagram:hover {
+    background-color: rgb(192, 74, 28);
 }
 
 .social-icons a.dribbble:hover {
@@ -214,12 +218,17 @@ p {
     margin-top: 20px;
     font-size: 25px;
 }
+/* 
+.progress {
+    margin-left: 150px;
+    margin-right: 150px;
+} */
 
-.rows{
-    height: 100px;
+.rows {
     display: flex;
     align-items: center;
     justify-content: center;
+    
   }
    
 

@@ -79,16 +79,16 @@ th {
     text-align: right;
 }
 
-.move {
+/* .move {
     width: 0%;
-}
+} */
 
 .input-group {
     width: 50%;
 }
 
 main {
-    height: 100vh;
+    min-height: 87.5vh;
 }
 
 .copyright-text {
@@ -148,6 +148,14 @@ main {
 
 .social-icons a.linkedin:hover {
     background-color: #007bb6
+}
+
+.social-icons a.whatsapp:hover {
+    background-color: green;
+}
+
+.social-icons a.instagram:hover {
+    background-color: rgb(192, 74, 28);
 }
 
 .social-icons a.dribbble:hover {
