@@ -88,7 +88,14 @@
                                         </a>
                                         <a href="">
                                             <button class="playAndStopButton" @onclick="MuteUnmute">
-                                                <i class="material-icons differentColor">volume_off</i>
+                                                @if (!Mute)
+                                                {
+                                                    <i class="material-icons differentColor">volume_up</i>
+                                                }
+                                                else if (Mute)
+                                                {
+                                                    <i class="material-icons differentColor">volume_off</i>
+                                                }
                                             </button>
                                         </a>
                                     </div>
