@@ -30,6 +30,16 @@
                             <button type="button" class="btn" @onclick="SearchSong">
                                 <i class="material-icons differentColor">search</i>
                             </button>
+                            @if(!songwasfinded)
+                            {
+                                <h4>
+                                    Are you searching for:
+                                     @foreach (var Song in RecomendedSongList)
+                                    {
+                                        <option value="@Song"> @Song.Name</option>
+                                    }
+                                </h4>
+                            }
                         </div>
                         @if (!songwasfinded)
                         {
@@ -167,7 +177,8 @@
                     <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                     <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
                     <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                    <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a class="whatsapp" href="#"><i class="fa fa-whatsapp"></i></a></li>
+                    <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -332,9 +343,7 @@
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         System.IO.Directory.CreateDirectory(DirectorySongs);
-
         Song.AddSongsToList(DirectorySongs, ref SongList);
-
     }
     private void MuteUnmute()
     {
