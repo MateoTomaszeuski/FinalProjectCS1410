@@ -253,7 +253,6 @@
     }
     public void GetSongs()
     {
-        var DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
     public string DirectorySongs { get; set; }

@@ -37,7 +37,11 @@
                                         d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1
                                         0-1h3v-3A.5.5 0 0 1 8 4z" />
                                         </svg> *@
-                                    <button onclick="StartCreatingPlaylist"> Create New Playlist</button>
+                                    @if (!IsCreatingNewPlaylist)
+                                    {
+                                        <button @onclick="StartCreatingPlaylist"> Create New
+                                            Playlist</button>
+                                    }
                                 </th>
                                 <th class="move">
                                     <div class="top-row searchColor">
@@ -56,32 +60,29 @@
                         <tbody>
                             @if (IsCreatingNewPlaylist)
                             {
-                                <select multiple class="form-control barNewColors" >
-
+                                <input type="text" @bind="PlaylistName" placeholder="Playlist Name">
+                                <select multiple @onchange="SelectedSongsChange">
                                     @foreach (var Song in SongList)
                                     {
                                         <option value="@Song"> @Song.Name</option>
                                     }
                                 </select>
+                                <button @onclick="CreateNewPlayList">
+                                    Create
+                                </button>
                             }
-                            @* @foreach (var playlist in PlayLists)
-                                {
+                            @* @foreach (var playList in @PlayLists)
+                            {
                                 <tr>
-                                <td>{{ playlist.Name }}</td>
-                                <td>{{ playlist.Songs.Count }}</td>
-                                <td>
-                                <a href="/playlist/{{ playlist.Id }}">
-                                <i class="material-icons">play_arrow</i>
-                                </a>
-                                <a href="/playlist/{{ playlist.Id }}/edit">
-                                <i class="material-icons">edit</i>
-                                </a>
-                                <a href="/playlist/{{ playlist.Id }}/delete">
-                                <i class="material-icons">delete</i>
-                                </a>
-                                </td>
+                                    <th>
+                                        @if (playList.Name != "")
+                                        {
+                                            @playList.Name
+                                        }
+                                    </th>
                                 </tr>
-                                } *@
+                            } *@
+
                         </tbody>
                     </table>
                 </div>
@@ -105,25 +106,65 @@
 </body>
 @code {
     private static List<MusicPlayList> PlayLists { get; set; }
-    private static List<Song> SongList { get; set; } = new();
+    private static List<Song> SongList = new List<Song>();
+    public string PlaylistName { get; set; }
+    private static List<Song> ChoosenSongs = new List<Song>();
+    private string[] SelectedSongs { get; set; }
     public bool IsCreatingNewPlaylist { get; set; } = false;
+    public string DirectorySongs { get; set; }
+    public string? SelectedSongasString { get; set; } = "";
+    public Song SelectedSongasSong { get; set; }
+    public string[]? NameAndPath { get; set; }
+    public string? path { get; set; }
+    public string? fullPath { get; set; }
+    public string? Songname { get; set; }
+
     protected override void OnInitialized()
     {
+        DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         GetSongs();
     }
     public void GetSongs()
     {
-        var DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
-        List<Song> songList = new();
-        Song.AddSongsToList(DirectorySongs, ref songList);
-        foreach (var song in songList)
-        {
-            SongList.Add(song);
-        }
+        Song.AddSongsToList(DirectorySongs, ref SongList);
     }
     public void StartCreatingPlaylist()
     {
         IsCreatingNewPlaylist = true;
+    }
+    public void CreateNewPlayList()
+    {
+        MusicPlayList newPlaylist = new MusicPlayList(ChoosenSongs, PlaylistName);
+        PlayLists.Add(newPlaylist);
+    }
+    void SelectedSongsChange(ChangeEventArgs e)
+    {
+        ChoosenSongs.Clear();
+        if (e.Value is not null)
+        {
+            SelectedSongs = (string[])e.Value;
+            foreach (var choosensong in SelectedSongs)
+            {
+                string selectedSong;
+                string[] nameAndPath = new string[] { };
+                string temppath = "";
+                string songname = "";
+                selectedSong = (string?)e?.Value;
+                Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+                AssignValues(selectedSong, nameAndPath, temppath, songname);
+
+                ChoosenSongs.Add(SelectedSongasSong);
+            }
+        }
+    }
+    public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
+    {
+        SelectedSongasString = selectedSong;
+        NameAndPath = nameAndPath;
+        path = temppath;
+        Songname = songname;
+        SelectedSongasSong = new Song(songname, path);
+        fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
     }
 
 }
