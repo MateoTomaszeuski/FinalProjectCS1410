@@ -150,3 +150,8 @@ p {
     text-align: center;
     color: #fff;
 }
+
+main {
+    min-height: 79.5vh;
+    background-color: #35858B;
+}
