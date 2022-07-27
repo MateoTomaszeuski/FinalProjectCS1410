@@ -70,18 +70,24 @@
                                             <button class="playAndStopButton" @onclick="PlayStop">
                                                 @if (!Play)
                                                 {
-                                                    <i class="material-icons differentColor">play_circle_filled</i>
+                                                    <i class="material-icons differentColor">pause_circle_filled</i>
                                                 }
                                                 else if (Play)
                                                 {
                                                     <i class="material-icons differentColor">play_circle_filled</i>
-                                                    //necesitamos un boton de pausa
                                                 }
                                             </button>
                                         </a>
                                         <a href="">
                                             <button class="playAndStopButton" @onclick="MuteUnmute">
-                                                <i class="material-icons differentColor">volume_off</i>
+                                                @if (!Mute)
+                                                {
+                                                    <i class="material-icons differentColor">volume_up</i>
+                                                }
+                                                else if (Mute)
+                                                {
+                                                    <i class="material-icons differentColor">volume_off</i>
+                                                }
                                             </button>
                                         </a>
                                     </div>
@@ -166,11 +172,11 @@
             <div class="rows">
                 <p class="copyright-text">Copyright &copy; 2022</p>
                 <ul class="social-icons">
-                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                    <li><a class="whatsapp" href="#"><i class="fa fa-whatsapp"></i></a></li>
-                    <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                    <li><a class="facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                    <li><a class="twitter" href="https://www.twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                    <li><a class="dribbble" href="https://www.dribbble.com/"><i class="fa fa-dribbble"></i></a></li>
+                    <li><a class="whatsapp" href="https://www.whatsapp.com/"><i class="fa fa-whatsapp"></i></a></li>
+                    <li><a class="instagram" href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                 </ul>
             </div>
         </div>
