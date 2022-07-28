@@ -24,13 +24,17 @@
                 <h1 class="title2">Download your favorite music from YouTube</h1>
                 <div class="form">
                     <i class="fa fa-search"></i>
+                    @if (isLoading)
+                    {
+                        <div class="spinner-border text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    }
+
                     @if (!isDone)
                     {
-                            <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
-                            <span class="left-pan"><i class="fa fa-microphone"></i></span>
-
-                            <button class="songDownload" @onclick="(() => {Download();})">Download</button>
-
+                        <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
+                        <button class="songDownload" @onclick="(() => {Download();})">Download</button>
                     }
                     else
                     {
@@ -76,6 +80,8 @@
     private static int totalSec { get; set; }
     private static int totalMin { get; set; }
     private static string duration { get; set; } = "";
+    private bool isLoading;
+
     private static void Download()
     {
         using (var service = Client.For(YouTube.Default))
