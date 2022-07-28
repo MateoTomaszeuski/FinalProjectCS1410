@@ -234,8 +234,33 @@ p {
     
   }
    
-
 .social-icons {
     text-align: center;
 }
 
+h4 {
+    color: #fff;
+    font-size: 25px;
+}
+
+th {
+    color: #fff;
+}
+
+.btnSong1 {
+    background-color: #35858B;
+    border: #072227;
+}
+
+.btnSong1 .iconMargin {
+    color: #fff;
+    font-size: 30px;
+    margin-left: 15px;
+}
+
+.btnSong1 .iconMargin:hover {
+    color: #35858B;
+    background-color: #fff;
+    border-radius: 15px;
+    font-size: 30px;
+}

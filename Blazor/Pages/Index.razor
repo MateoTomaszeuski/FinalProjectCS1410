@@ -33,7 +33,6 @@
                                     <i class="material-icons differentColor">search</i>
                                 </button>
                             }
-
                         </div>
                         @if (!songwasfinded)
                         {
@@ -47,8 +46,7 @@
                                         @if (Song.Name != "")
                                         {
                                             @Song.Name
-
-                                            <button class="btnSong" @onclick="(() => {GetSelectedSong(Song.Name); PlayStop(); })">
+                                            <button class="btnSong1" @onclick="(() => {GetSelectedSong(Song.Name); PlayStop(); })">
                                                 @if (!Play)
                                                 {
                                                     <i class="material-icons iconMargin">play_circle_filled</i>
