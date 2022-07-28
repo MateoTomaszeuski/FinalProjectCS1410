@@ -62,7 +62,8 @@
                                         <th>
                                             @if (Song.Name != "")
                                             {
-                                                <button class="btnSong" @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
+                                                <button class="btnSong"
+                                        @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
                                                     @Song.Name</button>
                                             }
                                         </th>
@@ -77,15 +78,16 @@
                                         <th>
                                             @if (song.Name != "")
                                             {
-                                                <button class="btnSong" @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
+                                                <button class="btnSong"
+                                        @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @song.Name</button>
                                             }
                                         </th>
                                     </tr>
                                 }
-                                <p>@Songname</p>
                                 @if (!Play)
                                 {
+                                    <p>@Songname</p>
                                     <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
                                 @onpause="nextSong">
                                         <source src="@path" />
