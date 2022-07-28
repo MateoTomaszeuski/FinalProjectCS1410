@@ -207,6 +207,7 @@ p {
     padding: 5px 10px;
     margin-top: 10px;
     text-align: center;
+    font-size: 15px;
 }
 
 tr {
@@ -224,5 +225,9 @@ tr {
 }
 
 .btnSong:hover {
-    color: #eee8d2;
+    color: #81f1c2;
+}
+
+.material-icons {
+    font-size: 30px;
 }
