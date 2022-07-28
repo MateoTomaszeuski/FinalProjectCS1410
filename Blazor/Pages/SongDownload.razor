@@ -15,29 +15,38 @@
 
 <body>
     <header>
-        
+        <h1 class="title2">Download your favorite music from YouTube</h1>
+
     </header>
     <main>
         <div class="row height d-flex justify-content-center align-items-center">
 
             <div class="col-md-6">
-                <h1 class="title2">Download your favorite music from YouTube</h1>
                 <div class="form">
                     <i class="fa fa-search"></i>
-                    @if (!isDone)
+                    @if (!isDone && !fail)
                     {
-                            <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
-                            <span class="left-pan"><i class="fa fa-microphone"></i></span>
-
+                        <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
+                        <span class="left-pan"><i class="fa fa-microphone"></i></span>
+                        @if (link != "")
+                        {
                             <button class="songDownload" @onclick="(() => {Download();})">Download</button>
+                        }
 
                     }
-                    else
+                    else if (!fail)
                     {
                         <h1>
                             Downloaded successfully
                         </h1>
                         <button @onclick="ResetValues">Download other song?</button>
+                    }
+                    @if (fail)
+                    {
+                        <h3>
+                            @ArgumentExceptionstring
+                        </h3>
+                        <button @onclick="ResetValues">try again</button>
                     }
                 </div>
 
@@ -66,6 +75,7 @@
 
 @code {
     public static bool isDone = false;
+    public static bool fail = false;
     public static string link { get; set; }
     public static string DirectorySongs { get; set; }
     public static string DirectoryVids { get; set; }
@@ -73,23 +83,36 @@
     public static string videoname { get; set; }
     public static string videofullpath { get; set; }
     public static string videofullnewpath { get; set; }
+    public static string ArgumentExceptionstring { get; set; } = "";
     private static int totalSec { get; set; }
     private static int totalMin { get; set; }
     private static string duration { get; set; } = "";
     private static void Download()
     {
-        using (var service = Client.For(YouTube.Default))
+        fail = false;
+        try
         {
-            var video = service.GetVideo(link);
-            string folder = DirectoryVids;
-            string path = Path.Combine(folder, video.FullName);
-            videoname = video.FullName;
-            File.WriteAllBytes(path, video.GetBytes());
-            isDone = true;
+            using (var service = Client.For(YouTube.Default))
+            {
+                var video = service.GetVideo(link);
+                string folder = DirectoryVids;
+                string path = Path.Combine(folder, video.FullName);
+                videoname = video.FullName;
+                File.WriteAllBytes(path, video.GetBytes());
+                isDone = true;
+            }
+            videofullpath = Path.Combine(DirectoryVids, videoname);
+            videofullnewpath = Path.Combine(DirectorySongs, videoname.Remove(videoname.Length - 4, 4) + ".mp3");
+            ConvertMP4ToMP3();
         }
-        videofullpath = Path.Combine(DirectoryVids, videoname);
-        videofullnewpath = Path.Combine(DirectorySongs, videoname.Remove(videoname.Length - 4, 4) + ".mp3");
-        ConvertMP4ToMP3();
+        catch
+        {
+            Console.WriteLine("in the catch");
+            fail = true;
+            ArgumentExceptionstring = "URL is not a valid YouTube URL!";
+            ResetValues();
+        }
+
     }
     private static void ConvertMP4ToMP3()
     {
@@ -110,7 +133,7 @@
         }
         System.IO.File.Delete(videofullpath);
 
-        using (StreamWriter writer = new StreamWriter(videofullpath.Remove(videofullpath.Length - 4, 4) + ".txt",true))
+        using (StreamWriter writer = new StreamWriter(videofullpath.Remove(videofullpath.Length - 4, 4) + ".txt", true))
         {
             writer.WriteLine(duration);
         }
@@ -120,13 +143,16 @@
     protected override void OnInitialized()
     {
         ResetValues();
+        fail = false;
+        ArgumentExceptionstring = "";
         home = Environment.ContentRootPath;
         DirectorySongs = Path.Combine(home, "wwwroot/Songs");
         DirectoryVids = Path.Combine(home, "wwwroot/Vids");
     }
-    private void ResetValues()
+    private static void ResetValues()
     {
         link = "";
         isDone = false;
+
     }
 }

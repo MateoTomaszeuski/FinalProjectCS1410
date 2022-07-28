@@ -27,9 +27,12 @@
                             <input @bind="SearchedSong" type="search" class="form-control rounded"
                                 placeholder="Search your favorite music..." aria-label="Search"
                                 aria-describedby="search-addon" />
-                            <button type="button" class="btn" @onclick="SearchSong">
-                                <i class="material-icons differentColor">search</i>
-                            </button>
+                            @if (SearchedSong != "")
+                            {
+                                <button type="button" class="btn" @onclick="SearchSong">
+                                    <i class="material-icons differentColor">search</i>
+                                </button>
+                            }
 
                         </div>
                         @if (!songwasfinded)
@@ -43,8 +46,18 @@
                                     <th>
                                         @if (Song.Name != "")
                                         {
-                                            <button class="btnSong" @onclick="(() => {SearchedSong = Song.Name;SearchSong(); })">
-                                                @Song.Name</button>
+                                            @Song.Name
+
+                                            <button class="btnSong" @onclick="(() => {GetSelectedSong(Song.Name); PlayStop(); })">
+                                                @if (!Play)
+                                                {
+                                                    <i class="material-icons iconMargin">play_circle_filled</i>
+                                                }
+                                                else if (Play)
+                                                {
+                                                    <i class="material-icons iconMargin">play_circle_filled</i>
+                                                }
+                                            </button>
                                         }
                                     </th>
                                 </tr>
@@ -220,6 +233,46 @@
     private bool Mute { get; set; } = false;
     private bool songwasfinded { get; set; } = true;
     private Timer timer { get; set; }
+    private void GetSelectedSong(string SearchedSong)
+    {
+        songwasfinded = true;
+        for (int i = 0; i < SongList.Count; i++)
+        {
+            if (SearchedSong == SongList[i].Name)
+            {
+                songpositon = i;
+            }
+        }
+        if (songpositon != -1)
+        {
+            string selectedSong = SongList[songpositon].ToString();
+            string[] nameAndPath = new string[] { };
+            string temppath = "";
+            string songname = "";
+            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(selectedSong, temppath, songname);
+            AudioDuration(fullPath);
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
+        }
+        else
+        {
+            RecomendedSongList.Clear();
+            RecomendedSongList.Add(new Song("", ""));
+            songwasfinded = false;
+            for (int i = 0; i < SongList.Count; i++)
+            {
+                if (SongList[i].Name.ToUpper().Contains(SearchedSong.ToUpper()))
+                {
+                    RecomendedSongList.Add(SongList[i]);
+                }
+            }
+        }
+        SearchedSong = "";
+    }
     private void SearchSong()
     {
         songwasfinded = true;
@@ -267,6 +320,7 @@
                 }
             }
         }
+        SearchedSong = "";
     }
     private void displaytimeupdate()
     {
@@ -413,7 +467,7 @@
             FileFullPath = Path.Combine(DirectoryVids, Songname + ".txt");
             using (StreamReader reader = new StreamReader(FileFullPath))
             {
-               duration = reader.ReadLine();
+                duration = reader.ReadLine();
             }
             string[] MinAndSec = duration.Split(':');
             totalMin = int.Parse(MinAndSec[0]);
