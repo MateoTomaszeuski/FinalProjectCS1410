@@ -81,7 +81,7 @@
                                                 @song.Name
                                                 <button class="btnSong"
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
-                                        @if (!Play)
+                                                    @if (!Play)
                                                     {
                                                         <i class="material-icons differentColor">pause_circle_filled</i>
                                                     }
@@ -136,15 +136,24 @@
     private static List<Song> SongList = new();
     private static List<Song> RecomendedSongList = new();
     private string inputSong { get; set; }
-    private string SelectedSongasString { get; set; }
-    private string[] NameAndPath { get; set; }
     private string path { get; set; }
+    private string DirectorySongs { get; set; }
     private string Songname { get; set; }
-    private Song SelectedSongasSong { get; set; }
+    private string currenttime { get; set; }
+    private string duration { get; set; }
+    private string fullPath { get; set; }
+    private string timeline { get; set; }
     private int songpositon { get; set; } = -1;
-    bool Play = true;
-    bool songwasfinded = true;
-    public Timer timer { get; set; } = new Timer();
+    private int secCount { get; set; } = 0;
+    private int minCount { get; set; } = 0;
+    private int currentMin { get; set; }
+    private int totalMin { get; set; }
+    private int totalSec { get; set; }
+    private int currentSec { get; set; }
+    private double percentaje { get; set; }
+    private bool Play { get; set; } = true;
+    private bool songwasfinded { get; set; } = true;
+    private Timer timer { get; set; } = new Timer();
 
     private void GetSelectedSong(string SearchedSong)
     {
@@ -162,7 +171,7 @@
             string temppath = "";
             string songname = "";
             Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AssignValues(temppath, songname);
             AudioDuration(fullPath);
         }
         else
@@ -180,36 +189,18 @@
         }
 
     }
-    private string fullPath { get; set; }
     private void nextSong()
     {
         if (!Play)
         {
             PlaySong();
-            for (int i = 0; i < SongList.Count; i++)
-            {
-
-                if (Songname == SongList[i].Name)
-                {
-                    songpositon = i;
-                    break;
-                }
-            }
-            string selectedSong;
-            if (songpositon + 2 > SongList.Count)
-            {
-                selectedSong = SongList[1].ToString();
-            }
-            else
-            {
-                selectedSong = SongList[songpositon + 1].ToString();
-
-            }
             string[] nameAndPath = new string[] { };
             string temppath = "";
             string songname = "";
-            Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            string selectedSong = "";
+
+            Song.nextSong(SongList, Songname, songpositon, ref selectedSong, ref nameAndPath!, ref temppath, ref songname);
+            AssignValues(temppath, songname);
             AudioDuration(fullPath);
 
             secCount = 0;
@@ -223,16 +214,13 @@
             PlaySong();
         }
     }
-    public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
+    private void AssignValues(string temppath, string songname)
     {
-        SelectedSongasString = selectedSong;
-        NameAndPath = nameAndPath;
         path = temppath;
         Songname = songname;
-        SelectedSongasSong = new Song(songname, path);
         fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
     }
-    public void PlaySong()
+    private void PlaySong()
     {
         if (Play)
         {
@@ -261,21 +249,16 @@
         }
 
     }
-    public void GetSongs()
+    private void GetSongs()
     {
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
-    public string DirectorySongs { get; set; }
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         GetSongs();
     }
-    private int secCount { get; set; } = 0;
-    private int minCount { get; set; } = 0;
-    private int currentMin { get; set; }
-    private int currentSec { get; set; }
-    private string currenttime { get; set; }
+
     private void TimerOnElapsed(object sender, ElapsedEventArgs e)
     {
         secCount++;
@@ -302,10 +285,6 @@
             timer.Dispose();
         }
     }
-    private int totalMin { get; set; }
-    private int totalSec { get; set; }
-    private string duration { get; set; }
-
     private void AudioDuration(string FileFullPath)
     {
         TagLib.File file = TagLib.File.Create(FileFullPath);
@@ -323,8 +302,7 @@
             duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
         }
     }
-    public double percentaje { get; set; }
-    public string timeline { get; set; }
+
     private void getpercentaje()
     {
         double totaltime = (totalMin * 60) + totalSec;
