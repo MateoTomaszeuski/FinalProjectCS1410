@@ -44,7 +44,6 @@
                                             <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
                                                 <i class="material-icons differentColor">search</i>
                                             </button>
-
                                         </div>
                                     </div>
                                 </th>
@@ -79,6 +78,10 @@
                                             @if (song.Name != "")
                                             {
                                                 @song.Name
+
+                                                @* h2>
+                                                    @song.Name
+                                                </h2> *@
                                                 <button class="btnSong"
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @if (!Play)
