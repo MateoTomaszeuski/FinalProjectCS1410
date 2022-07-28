@@ -189,7 +189,6 @@ main {
     justify-content: center;
   }
    
-
 .social-icons {
     text-align: center;
 }
@@ -225,6 +224,5 @@ tr {
 }
 
 .btnSong:hover {
-    /* background-color: #fff; */
     color: #eee8d2;
 }
