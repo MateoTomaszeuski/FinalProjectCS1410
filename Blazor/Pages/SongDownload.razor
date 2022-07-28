@@ -1,7 +1,9 @@
 ﻿@page "/SongDownload"
+@using System.Diagnostics
 @using VideoLibrary
 @using System
 @using System.IO
+@using Xabe.FFmpeg
 @inject IWebHostEnvironment Environment
 
 
@@ -19,6 +21,7 @@
     </h1>
 }
 @videofullnewpath
+
 </html>
 
 @code {
@@ -46,9 +49,12 @@
                 isDone = true;
             }
         }
-        videofullpath = Path.Combine(DirectorySongs,videoname);
+        videofullpath = Path.Combine(DirectorySongs, videoname);
         videofullnewpath = (videofullpath.Remove(videofullpath.Length - 4, 4) + ".mp3");
-        System.IO.File.Move(videofullpath, videofullnewpath, true);
+    }
+    static void ConvertMP4ToMP3()
+    {
+
     }
 
     protected override void OnInitialized()
