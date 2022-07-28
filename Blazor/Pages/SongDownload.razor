@@ -15,19 +15,20 @@
 
 <body>
     <header>
-        <h1 class="title2">Download your favorite music from YouTube</h1>
 
     </header>
     <main>
         <div class="row height d-flex justify-content-center align-items-center">
 
             <div class="col-md-6">
+        <h1 class="title2">Download your favorite music from 
+            <i class="fa fa-youtube youtube"></i>
+        </h1>
                 <div class="form">
-                    <i class="fa fa-search"></i>
                     @if (!isDone && !fail)
                     {
+                        <i class="fa fa-search"></i>
                         <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
-                        <span class="left-pan"><i class="fa fa-microphone"></i></span>
                         @if (link != "")
                         {
                             <button class="songDownload" @onclick="(() => {Download();})">Download</button>
@@ -38,7 +39,7 @@
                         <h1>
                             Downloaded successfully
                         </h1>
-                        <button @onclick="ResetValues">Download other song?</button>
+                        <button class="songDownload" @onclick="ResetValues">Download other song?</button>
                     }
                     @if (fail)
                     {

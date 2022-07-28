@@ -3,13 +3,9 @@ main {
     min-height: 80vh;
 }
 
-
-.height {
-    height: 100vh;
-}
-
 .form {
     position: relative;
+    text-align: center;
 }
 
 .form .fa-search {
@@ -80,7 +76,8 @@ div {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 20px;
+    text-align: center;
 }
 
 .copyright-text {
@@ -168,8 +165,14 @@ h1 {
 
 .title2 {
     margin-bottom: 30px;
+    margin-top: 150px;
+    font-size: 30px;
 }
 
 footer {
     background-color: #35858B;
+}
+
+.youtube {
+    font-size: 50px;
 }
