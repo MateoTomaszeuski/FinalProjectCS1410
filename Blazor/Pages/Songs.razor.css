@@ -6,12 +6,17 @@ h1, h4, th {
     color: #fff;
 }
 
+tbody th {
+    width: 100%;
+}
+
 tbody th:hover {
     /* background-color: #1c5357; */
     color: #fff;
-    border: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
     border-radius: 30px;
-    padding: 10px;
+    /* padding: 5px; */
 }
 
 .btn {
@@ -55,11 +60,6 @@ tbody th:hover {
     padding-bottom: 50px;
 }
 
-.bar2 {
-    background-color: #35858B;
-    border-color: #35858B;
-}
-
 .table {
     --bs-table-striped-bg: rgba(0, 0, 0, 0.0);
 }
@@ -76,10 +76,6 @@ tbody th:hover {
 .reloadButton:hover {
     background-color: #fff;
     color: #000;
-}
-
-.moveButton {
-    text-align: right;
 }
 
 .btn {
@@ -215,5 +211,20 @@ p {
 }
 
 tr {
+    text-align: left;
+}
+
+.songList {
+    margin-top: 30px;
+    margin-bottom: 35px;
     text-align: center;
+}
+
+.iconMargin {
+    margin-left: 20px;
+}
+
+.btnSong:hover {
+    /* background-color: #fff; */
+    color: #eee8d2;
 }

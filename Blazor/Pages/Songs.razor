@@ -24,29 +24,25 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    <h1 class="songList">
+                        <i class="material-icons">
+                            music_note
+                        </i>
+                        Songs List
+                    </h1>
                     <table class="table table-striped">
                         <thead>
                             <tr class="bar2">
-                                <th>
-                                    <h1>
-                                        <i class="material-icons">
-                                            music_note
-                                        </i>
-                                        Songs List
-                                    </h1>
-                                </th>
-                                <th>
-                                    <div class="top-row searchColor">
-                                        <div class="input-group">
-                                            <input @bind="inputSong" type="search" class="form-control rounded"
-                                                placeholder="Search your favorite song..." aria-label="Search"
-                                                aria-describedby="search-addon" />
-                                            <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
-                                                <i class="material-icons differentColor">search</i>
-                                            </button>
-                                        </div>
+                                <div class="top-row searchColor">
+                                    <div class="input-group">
+                                        <input @bind="inputSong" type="search" class="form-control rounded"
+                                            placeholder="Search your favorite song..." aria-label="Search"
+                                            aria-describedby="search-addon" />
+                                        <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
+                                            <i class="material-icons differentColor">search</i>
+                                        </button>
                                     </div>
-                                </th>
+                                </div>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,8 +57,7 @@
                                         <th>
                                             @if (Song.Name != "")
                                             {
-                                                <button
-                                        @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
+                                                <button @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
                                                     @Song.Name</button>
                                             }
                                         </th>
@@ -81,16 +76,16 @@
 
                                                 @* h2>
                                                     @song.Name
-                                                </h2> *@
+                                                    </h2> *@
                                                 <button class="btnSong"
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @if (!Play)
                                                     {
-                                                        <i class="material-icons differentColor">pause_circle_filled</i>
+                                                        <i class="material-icons iconMargin">pause_circle_filled</i>
                                                     }
                                                     else if (Play)
                                                     {
-                                                        <i class="material-icons differentColor">play_circle_filled</i>
+                                                        <i class="material-icons iconMargin">play_circle_filled</i>
                                                     }
                                                 </button>
                                             }

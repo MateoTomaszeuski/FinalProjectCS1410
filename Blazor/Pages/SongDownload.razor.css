@@ -4,59 +4,50 @@ main {
 }
 
 
-.height{
-
+.height {
     height: 100vh;
 }
 
-.form{
-
+.form {
     position: relative;
 }
 
-.form .fa-search{
-
+.form .fa-search {
     position: absolute;
-    top:20px;
+    top: 20px;
     left: 20px;
     color: #9ca3af;
 
 }
 
-.form span{
-
-        position: absolute;
+.form span {
+    position: absolute;
     right: 17px;
     top: 13px;
     padding: 2px;
     border-left: 1px solid #d1d5db;
-
 }
 
-.left-pan{
+.left-pan {
     padding-left: 7px;
 }
 
-.left-pan i{
-   
-   padding-left: 10px;
+.left-pan i {
+    padding-left: 10px;
 }
 
-.form-input{
-
+.form-input {
     height: 55px;
     text-indent: 33px;
     border-radius: 10px;
 }
 
-.form-input:focus{
-
+.form-input:focus {
     box-shadow: none;
-    border:none;
+    border: none;
 }
 
-.form-input::placeholder{
-
+.form-input::placeholder {
     color: #9ca3af;
 }
 
@@ -74,7 +65,16 @@ main {
     background-color: #0A2F3A;
 }
 
-h1, h2, h3, h4, h5, h6, p, a, li, span, div {
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li,
+span,
+div {
     color: #fff;
     font-size: 16px;
 }
@@ -86,7 +86,7 @@ h1 {
 .copyright-text {
     margin: 0;
     font-size: 18px;
-    margin-right: 35px;    
+    margin-right: 35px;
 }
 
 .social-icons {
@@ -146,41 +146,19 @@ h1 {
     background-color: #ea4c89
 }
 
-.barNewColors {
-    background-color: black;
-    color: white;
+.social-icons a.whatsapp:hover {
+    background-color: green;
 }
 
-.progress {
-    width: 100%;
-}
-                
-.progress-bar {
-    background-color: #d3b014;
+.social-icons a.instagram:hover {
+    background-color: rgb(192, 74, 28);
 }
 
-.timeLine {
-    color: #fff;
-    margin-top: 20px;
-    font-size: 25px;
-}
-
-.rows{
+.rows {
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-   
-
-.social-icons {
-    text-align: center;
-}
-
-p {
-    font-size: 20px;
-    text-align: center;
-    color: #fff;
 }
 
 footer {

@@ -83,6 +83,14 @@ main {
     background-color: #ea4c89
 }
 
+.social-icons a.whatsapp:hover {
+    background-color: green;
+}
+
+.social-icons a.instagram:hover {
+    background-color: rgb(192, 74, 28);
+}
+
 .barNewColors {
     background-color: black;
     color: white;
