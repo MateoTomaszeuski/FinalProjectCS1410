@@ -62,7 +62,7 @@
                                         <th>
                                             @if (Song.Name != "")
                                             {
-                                                <button class="btnSong"
+                                                <button
                                         @onclick="(() => {GetSelectedSong(Song.Name); PlaySong(); })">
                                                     @Song.Name</button>
                                             }
