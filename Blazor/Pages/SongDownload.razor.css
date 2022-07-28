@@ -3,6 +3,10 @@ main {
     min-height: 80vh;
 }
 
+body {
+    background-color: #35858B;
+}
+
 .form {
     position: relative;
     text-align: center;
@@ -175,4 +179,9 @@ footer {
 
 .youtube {
     font-size: 50px;
+}
+
+h3 {
+    font-size: 26px;
+    color: red;
 }

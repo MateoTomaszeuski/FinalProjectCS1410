@@ -46,7 +46,7 @@
                         <h3>
                             @ArgumentExceptionstring
                         </h3>
-                        <button class="songDownload" @onclick="ResetValuesOnFail">try again</button>
+                        <button class="songDownload" @onclick="ResetValuesOnFail">Try again!</button>
                     }
                 </div>
 
@@ -110,7 +110,7 @@
         catch
         {
             fail = true;
-            ArgumentExceptionstring = "URL is not a valid YouTube URL!";
+            ArgumentExceptionstring = "URL is not a valid, please insert a YouTube URL!";
             ResetValues();
         }
 
