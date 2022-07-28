@@ -4,31 +4,71 @@
 @using System.IO
 @inject IWebHostEnvironment Environment
 
-
-<PageTitle>Index</PageTitle>
+<PageTitle>Song Download</PageTitle>
 <html>
-@if (!isDone)
-{
-    <input type="text" @bind="link" placeholder="your youtube link:">
-    <button @onclick="(() => {Download(); IsLoading(); })">
-        download
-    </button>
-    @if (!loading)
-    {
-        <div>
-            <h5>
-                downloading...
-            </h5>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+
+    </header>
+    <main>
+        <div class="row height d-flex justify-content-center align-items-center">
+
+            <div class="col-md-6">
+
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    @if (!isDone)
+                    {
+
+                        <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
+                        <span class="left-pan"><i class="fa fa-microphone"></i></span>
+
+                        <button class="songDownload" "(() => {Download(); IsLoading(); })">Download</button>
+                        @if (loading)
+                        {
+                            <div>
+                                <h5>
+                                    downloading...
+                                </h5>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <h1>
+                            Downloaded successfully
+                        </h1>
+                        <button @onclick="ResetValues">Download other song?</button>
+
+                    }
+                </div>
+
+            </div>
+
         </div>
-    }
-}
-else
-{
-    <h1>
-        Downloaded
-    </h1>
-    <button @onclick="ResetValues">Download other song?</button>
-}
+
+    </main>
+    <footer>
+        <div class="container">
+            <div class="rows">
+                <p class="copyright-text">Copyright MT & JS &copy; 2022</p>
+                <ul class="social-icons">
+                    <li><a class="facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                    <li><a class="twitter" href="https://www.twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                    <li><a class="dribbble" href="https://www.dribbble.com/"><i class="fa fa-dribbble"></i></a></li>
+                    <li><a class="whatsapp" href="https://www.whatsapp.com/"><i class="fa fa-whatsapp"></i></a></li>
+                    <li><a class="instagram" href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
 
 </html>
 
