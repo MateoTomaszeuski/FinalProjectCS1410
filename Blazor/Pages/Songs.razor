@@ -71,9 +71,12 @@
                                         <input @bind="inputSong" type="search" class="form-control rounded"
                                             placeholder="Search your favorite song..." aria-label="Search"
                                             aria-describedby="search-addon" />
-                                        <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
-                                            <i class="material-icons differentColor">search</i>
-                                        </button>
+                                        @if (inputSong != "")
+                                        {
+                                            <button class="btn" @onclick="() => GetSelectedSong(inputSong)">
+                                                <i class="material-icons differentColor">search</i>
+                                            </button>
+                                        }
                                     </div>
                                 </div>
                             </tr>
