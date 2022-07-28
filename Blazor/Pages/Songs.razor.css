@@ -1,14 +1,22 @@
 body {
     background-color: #35858B;
-    /* margin-top: 50px; */
 }
 
 h1 {
     color: #fff;
+    
 }
 
 th {
     color: #fff;
+}
+
+th:hover {
+    /* background-color: #1c5357; */
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 30px;
+    padding: 10px;
 }
 
 .btn {
@@ -79,9 +87,11 @@ th {
     text-align: right;
 }
 
-/* .move {
-    width: 0%;
-} */
+.btn {
+    background-color: #072227;
+    border: #072227;
+    height: 40px;
+}
 
 .input-group {
     width: 50%;
@@ -197,4 +207,13 @@ p {
     font-size: 20px;
     text-align: center;
     color: #fff;
+    margin-top: 40px;
+}
+
+.btnSong {
+    background-color: #35858B;
+    border: #35858B;
+    color: #fff;
+    padding: 5px 10px;
+    margin-top: 10px;
 }
