@@ -8,16 +8,13 @@ h1, h4, th {
 
 tbody th {
     width: 100%;
-
 }
 
 tbody th:hover {
-    /* background-color: #1c5357; */
     color: #fff;
     border-left: 1px solid #fff;
     border-right: 1px solid #fff;
     border-radius: 30px;
-    /* padding: 5px; */
 }
 
 .btn {
@@ -31,7 +28,6 @@ tbody th:hover {
     background-color: #fff;
     color: #35858B;
 }
-
 
 .searchColor {
     background-color: #35858B;
