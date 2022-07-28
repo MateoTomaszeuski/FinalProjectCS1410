@@ -34,9 +34,11 @@ public record Song
     public static void GetNameandPath(ref string SelectedSong, ref string[]? nameAndPath, ref string path, ref string Songname)
     {
 
-        nameAndPath = SelectedSong?.Split(",");
+        nameAndPath = SelectedSong?.Split("🆗");
         path = nameAndPath?[0];
-        path = "/Songs/" + path?.Remove(0, 14) + ".mp3";
+        Console.WriteLine("path 1" + path);
+        path = "/Songs/" + path?.Remove(0,7) + ".mp3";
+        Console.WriteLine("path 2" + path);
         Songname = path.Remove(0, 7);
         Songname = Songname.Remove(Songname.Length - 4);
     }
@@ -63,4 +65,8 @@ public record Song
         GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
     }
 
+    public override string? ToString()
+    {
+        return "Name = " + Name + "🆗 " + "SongPath = " + SongPath;
+    }
 }

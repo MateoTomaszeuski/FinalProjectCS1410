@@ -24,6 +24,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+
+                    <h1 class="songList">
+                        Songs List
+                    </h1>
+
                     @if (!Play)
                     {
                         <h1 class="songList">
@@ -37,17 +42,7 @@
                             </div>
                             <div class="timeLine">
                                 @timeline
-
                             </div>
-                        </h1>
-                    }
-                    else
-                    {
-                        <h1 class="songList">
-                            <i class="material-icons">
-                                music_note
-                            </i>
-                            Songs List
                         </h1>
                     }
                     <table class="table table-striped">
@@ -142,6 +137,7 @@
     private string inputSong { get; set; }
     private string path { get; set; }
     private string DirectorySongs { get; set; }
+    private string DirectoryVids { get; set; }
     private string Songname { get; set; }
     private string currenttime { get; set; }
     private string duration { get; set; }
@@ -260,6 +256,7 @@
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
+        DirectoryVids = Path.Combine(Environment.ContentRootPath, "wwwroot/Vids");
         GetSongs();
     }
 
@@ -281,6 +278,7 @@
         {
             currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
         }
+
     }
     public void Dispose()
     {
@@ -304,6 +302,14 @@
         else
         {
             duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+        }
+        if (duration == "00:00")
+        {
+            FileFullPath = Path.Combine(DirectoryVids, Songname + ".txt");
+            using (StreamReader reader = new StreamReader(FileFullPath))
+            {
+                duration = reader.ReadLine();
+            }
         }
     }
 

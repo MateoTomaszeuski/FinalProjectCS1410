@@ -117,10 +117,10 @@
                 InvalidLoadedFiles.Add(file);
                 Error = "Invalid size";
             }
-            else if (file.Name.Contains(','))
+            else if (file.Name.Contains("🆗"))
             {
                 InvalidLoadedFiles.Add(file);
-                Error = "Coma in filename, please rename";
+                Error = "File has"+"\"🆗\"" + "in its name, please rename";
             }
         }
 

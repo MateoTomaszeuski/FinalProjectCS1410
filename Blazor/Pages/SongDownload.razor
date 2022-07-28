@@ -6,6 +6,7 @@
 
 <PageTitle>Song Download</PageTitle>
 <html>
+
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,19 +26,11 @@
                     <i class="fa fa-search"></i>
                     @if (!isDone)
                     {
+                            <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
+                            <span class="left-pan"><i class="fa fa-microphone"></i></span>
 
-                        <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
-                        <span class="left-pan"><i class="fa fa-microphone"></i></span>
+                            <button class="songDownload" @onclick="(() => {Download();})">Download</button>
 
-                        <button class="songDownload" "(() => {Download(); IsLoading(); })">Download</button>
-                        @if (loading)
-                        {
-                            <div>
-                                <h5>
-                                    downloading...
-                                </h5>
-                            </div>
-                        }
                     }
                     else
                     {
@@ -45,7 +38,6 @@
                             Downloaded successfully
                         </h1>
                         <button @onclick="ResetValues">Download other song?</button>
-
                     }
                 </div>
 
@@ -73,9 +65,7 @@
 </html>
 
 @code {
-    public static bool isfirst = true;
     public static bool isDone = false;
-    public static bool loading = false;
     public static string link { get; set; }
     public static string DirectorySongs { get; set; }
     public static string DirectoryVids { get; set; }
@@ -86,11 +76,7 @@
     private static int totalSec { get; set; }
     private static int totalMin { get; set; }
     private static string duration { get; set; } = "";
-    public static void IsLoading()
-    {
-        loading = true;
-    }
-    public static void Download()
+    private static void Download()
     {
         using (var service = Client.For(YouTube.Default))
         {
@@ -105,10 +91,30 @@
         videofullnewpath = Path.Combine(DirectorySongs, videoname.Remove(videoname.Length - 4, 4) + ".mp3");
         ConvertMP4ToMP3();
     }
-    public static void ConvertMP4ToMP3()
+    private static void ConvertMP4ToMP3()
     {
         System.IO.File.Copy(videofullpath, videofullnewpath);
-        loading = false;
+        TagLib.File Vfile = TagLib.File.Create(videofullpath);
+        int s_time = (int)Vfile.Properties.Duration.TotalSeconds;
+        int s_minutes = s_time / 60;
+        int s_seconds = s_time % 60;
+        totalMin = s_minutes;
+        totalSec = s_seconds;
+        if (totalSec < 10)
+        {
+            duration = "0" + s_minutes.ToString() + ":" + "0" + s_seconds.ToString();
+        }
+        else
+        {
+            duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+        }
+        System.IO.File.Delete(videofullpath);
+
+        using (StreamWriter writer = new StreamWriter(videofullpath.Remove(videofullpath.Length - 4, 4) + ".txt",true))
+        {
+            writer.WriteLine(duration);
+        }
+
 
     }
     protected override void OnInitialized()

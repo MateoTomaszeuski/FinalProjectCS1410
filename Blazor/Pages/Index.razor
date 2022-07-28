@@ -410,21 +410,10 @@
         }
         if (duration == "00:00")
         {
-            FileFullPath = Path.Combine(DirectoryVids,Songname + ".mp4");
-            Console.WriteLine(FileFullPath);
-            TagLib.File Vfile = TagLib.File.Create(FileFullPath);
-            s_time = (int)Vfile.Properties.Duration.TotalSeconds;
-            s_minutes = s_time / 60;
-            s_seconds = s_time % 60;
-            totalMin = s_minutes;
-            totalSec = s_seconds;
-            if (totalSec < 10)
+            FileFullPath = Path.Combine(DirectoryVids, Songname + ".txt");
+            using (StreamReader reader = new StreamReader(FileFullPath))
             {
-                duration = "0" + s_minutes.ToString() + ":" + "0" + s_seconds.ToString();
-            }
-            else
-            {
-                duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+               duration = reader.ReadLine();
             }
         }
     }
