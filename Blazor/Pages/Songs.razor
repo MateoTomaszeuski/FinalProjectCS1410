@@ -29,22 +29,40 @@
                         Songs List
                     </h1>
 
-                    @if (!Play)
+                    @if (!IsFirst)
                     {
                         <h1 class="songList">
                             <p>@Songname</p>
-                            <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                            @if (!Play)
+                            {
+                                <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
                             @onpause="nextSong">
-                                <source src="@path" />
-                            </audio>
+                                    <source src="@path#t=00:@currenttime" />
+                                </audio>
+                            }
+
+
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
                             </div>
+
                             <div class="timeLine">
                                 @timeline
                             </div>
+                            <button @onclick="PlaySong">
+                                @if (!Play)
+                                {
+                                    <i class="material-icons iconMargin">pause_circle_filled</i>
+                                }
+                                else if (Play)
+                                {
+                                    <i class="material-icons iconMargin">play_circle_filled</i>
+                                }
+                            </button>
+
                         </h1>
                     }
+
                     <table class="table table-striped">
                         <thead>
                             <tr class="bar2">
@@ -93,7 +111,7 @@
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @if (!Play)
                                                     {
-                                                        <i class="material-icons iconMargin">pause_circle_filled</i>
+                                                        <i class="material-icons iconMargin">play_circle_filled</i>
                                                     }
                                                     else if (Play)
                                                     {
@@ -149,6 +167,7 @@
     private int currentSec { get; set; }
     private double percentaje { get; set; }
     private bool Play { get; set; } = true;
+    private bool IsFirst { get; set; }
     private bool songwasfinded { get; set; } = true;
     private Timer timer { get; set; } = new Timer();
 
@@ -170,6 +189,11 @@
             Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
             AssignValues(temppath, songname);
             AudioDuration(fullPath);
+            secCount = 0;
+            minCount = 0;
+            currentMin = 0;
+            currentSec = 0;
+            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
         }
         else
         {
@@ -221,12 +245,11 @@
     {
         if (Play)
         {
+            if (IsFirst)
+            {
+                IsFirst = false;
+            }
             songwasfinded = true;
-            secCount = 0;
-            minCount = 0;
-            currentMin = 0;
-            currentSec = 0;
-            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
 
             timer = new Timer(1000);
             timer.Elapsed += TimerOnElapsed;
@@ -235,12 +258,11 @@
         }
         else
         {
+            if (IsFirst)
+            {
+                IsFirst = false;
+            }
 
-            secCount = 0;
-            minCount = 0;
-            currentMin = 0;
-            currentSec = 0;
-            currenttime = "0" + currentMin.ToString() + ":" + currentSec.ToString();
             timer.Stop();
             Play = true;
         }
@@ -255,6 +277,7 @@
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
         DirectoryVids = Path.Combine(Environment.ContentRootPath, "wwwroot/Vids");
         GetSongs();
+        IsFirst = true;
     }
 
     private void TimerOnElapsed(object sender, ElapsedEventArgs e)
@@ -307,6 +330,9 @@
             {
                 duration = reader.ReadLine();
             }
+            string[] MinAndSec = duration.Split(':');
+            totalMin = int.Parse(MinAndSec[0]);
+            totalSec = int.Parse(MinAndSec[1]);
         }
     }
 

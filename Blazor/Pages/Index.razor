@@ -415,6 +415,9 @@
             {
                duration = reader.ReadLine();
             }
+            string[] MinAndSec = duration.Split(':');
+            totalMin = int.Parse(MinAndSec[0]);
+            totalSec = int.Parse(MinAndSec[1]);
         }
     }
     private void getpercentaje()

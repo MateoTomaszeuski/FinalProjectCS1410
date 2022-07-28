@@ -36,9 +36,7 @@ public record Song
 
         nameAndPath = SelectedSong?.Split("🆗");
         path = nameAndPath?[0];
-        Console.WriteLine("path 1" + path);
         path = "/Songs/" + path?.Remove(0,7) + ".mp3";
-        Console.WriteLine("path 2" + path);
         Songname = path.Remove(0, 7);
         Songname = Songname.Remove(Songname.Length - 4);
     }
