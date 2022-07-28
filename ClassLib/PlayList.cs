@@ -1,7 +1,7 @@
 
 public record MusicPlayList
 {
-    List<Song> Songs {get; set;}
+    public List<Song> Songs {get; set;}
     public string Name { get; set; }
 
     public MusicPlayList(List<Song> songs, string name)

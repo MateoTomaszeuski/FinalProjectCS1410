@@ -132,9 +132,8 @@
                                                 }
                                                 else if (Mute)
                                                 {
-                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
-                                                        @onpause="nextSong">
-                                                        <source src="/muted/zzz.mp3#t=00:@currenttime" />
+                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate">
+                                                        <source src="/muted/zzz.mp3" />
                                                     </audio>
                                                     <div class="progress">
                                                         <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
@@ -421,5 +420,10 @@
         double currenttime = (currentMin * 60) + currentSec;
         double totalpercentaje = (currenttime / totaltime) * 100;
         percentaje = totalpercentaje;
+        if(percentaje == 100 && Mute)
+        {
+            nextSong();
+            PlayStop();
+        }
     }
 }
