@@ -6,21 +6,62 @@
 @using Xabe.FFmpeg
 @inject IWebHostEnvironment Environment
 
-
-<PageTitle>Index</PageTitle>
+<PageTitle>Song Download</PageTitle>
 <html>
-<input type="text" @bind="link" placeholder="your youtube link:">
-<button @onclick="Download">
-    download
-</button>
 
-@if (isDone)
-{
-    <h1>
-        Downloaded
-    </h1>
-}
-@videofullnewpath
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+
+    </header>
+    <main>
+        @* <input class="songDownload" type="text" @bind="link" placeholder="YouTube link">
+            <button @onclick="Download">
+            Download
+            </button>
+
+            @if (isDone)
+            {
+            <h1>
+            Downloaded successfully
+            </h1>
+            }
+            @videofullnewpath *@
+
+        <div class="row height d-flex justify-content-center align-items-center">
+
+            <div class="col-md-6">
+
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    <input type="text" @bind="link" class="form-control form-input" placeholder="Search anything...">
+                    <span class="left-pan"><i class="fa fa-microphone"></i></span>
+
+                    <button class="songDownload" @onclick="Download">Download</button>
+
+                    @if (isDone)
+                    {
+                        <h1>
+                            Downloaded successfully
+                        </h1>
+                    }
+                    @videofullnewpath
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+    <footer>
+
+    </footer>
+</body>
 
 </html>
 
