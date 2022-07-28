@@ -198,6 +198,7 @@
     List<Song> RecomendedSongList = new List<Song>();
     private string[]? NameAndPath { get; set; }
     private string? DirectorySongs;
+    private string? DirectoryVids;
     private string SearchedSong { get; set; } = "";
     private string? SelectedSongasString { get; set; } = "";
     private string? path { get; set; }
@@ -333,7 +334,9 @@
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
+        DirectoryVids = Path.Combine(Environment.ContentRootPath, "wwwroot/Vids");
         System.IO.Directory.CreateDirectory(DirectorySongs);
+        System.IO.Directory.CreateDirectory(DirectoryVids);
         Song.AddSongsToList(DirectorySongs, ref SongList);
     }
     private void MuteUnmute()
@@ -405,6 +408,25 @@
         {
             duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
         }
+        if (duration == "00:00")
+        {
+            FileFullPath = Path.Combine(DirectoryVids,Songname + ".mp4");
+            Console.WriteLine(FileFullPath);
+            TagLib.File Vfile = TagLib.File.Create(FileFullPath);
+            s_time = (int)Vfile.Properties.Duration.TotalSeconds;
+            s_minutes = s_time / 60;
+            s_seconds = s_time % 60;
+            totalMin = s_minutes;
+            totalSec = s_seconds;
+            if (totalSec < 10)
+            {
+                duration = "0" + s_minutes.ToString() + ":" + "0" + s_seconds.ToString();
+            }
+            else
+            {
+                duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
+            }
+        }
     }
     private void getpercentaje()
     {
@@ -418,4 +440,5 @@
             PlayStop();
         }
     }
+
 }
