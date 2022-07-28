@@ -21,9 +21,9 @@
         <div class="row height d-flex justify-content-center align-items-center">
 
             <div class="col-md-6">
-        <h1 class="title2">Download your favorite music from 
-            <i class="fa fa-youtube youtube"></i>
-        </h1>
+                <h1 class="title2">Download your favorite music from
+                    <i class="fa fa-youtube youtube"></i>
+                </h1>
                 <div class="form">
                     @if (!isDone && !fail)
                     {
@@ -46,7 +46,7 @@
                         <h3>
                             @ArgumentExceptionstring
                         </h3>
-                        <button @onclick="ResetValues">try again</button>
+                        <button class="songDownload" @onclick="ResetValuesOnFail">try again</button>
                     }
                 </div>
 
@@ -109,7 +109,6 @@
         }
         catch
         {
-            Console.WriteLine("in the catch");
             fail = true;
             ArgumentExceptionstring = "URL is not a valid YouTube URL!";
             ResetValues();
@@ -144,9 +143,7 @@
     }
     protected override void OnInitialized()
     {
-        ResetValues();
-        fail = false;
-        ArgumentExceptionstring = "";
+        ResetValuesOnFail();
         home = Environment.ContentRootPath;
         DirectorySongs = Path.Combine(home, "wwwroot/Songs");
         DirectoryVids = Path.Combine(home, "wwwroot/Vids");
@@ -156,5 +153,11 @@
         link = "";
         isDone = false;
 
+    }
+    private static void ResetValuesOnFail()
+    {
+        ResetValues();
+        fail = false;
+        ArgumentExceptionstring = "";
     }
 }
