@@ -24,12 +24,32 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="songList">
-                        <i class="material-icons">
-                            music_note
-                        </i>
-                        Songs List
-                    </h1>
+                    @if (!Play)
+                    {
+                        <h1 class="songList">
+                            <p>@Songname</p>
+                            <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
+                            @onpause="nextSong">
+                                <source src="@path" />
+                            </audio>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                            </div>
+                            <div class="timeLine">
+                                @timeline
+
+                            </div>
+                        </h1>
+                    }
+                    else
+                    {
+                        <h1 class="songList">
+                            <i class="material-icons">
+                                music_note
+                            </i>
+                            Songs List
+                        </h1>
+                    }
                     <table class="table table-striped">
                         <thead>
                             <tr class="bar2">
@@ -89,21 +109,7 @@
                                         </th>
                                     </tr>
                                 }
-                                @if (!Play)
-                                {
-                                    <p>@Songname</p>
-                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
-                                @onpause="nextSong">
-                                        <source src="@path" />
-                                    </audio>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
-                                    </div>
-                                    <div class="timeLine">
-                                        @timeline
 
-                                    </div>
-                                }
                             }
                         </tbody>
                     </table>
