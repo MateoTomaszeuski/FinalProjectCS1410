@@ -102,13 +102,16 @@
                 </div>
             </div>
             <h1>
-                <select class="form-control barNewColors" @onchange="SelectedSongChanged">
+                @if (songwasfinded)
+                {
+                    <select class="form-control barNewColors" @onchange="SelectedSongChanged">
 
-                    @foreach (var Song in SongList)
-                    {
-                        <option value="@Song"> @Song.Name</option>
-                    }
-                </select>
+                        @foreach (var Song in SongList)
+                        {
+                            <option value="@Song"> @Song.Name</option>
+                        }
+                    </select>
+                }
                 @if (SelectedSongasString != "")
                 {
                     <div class="row">
