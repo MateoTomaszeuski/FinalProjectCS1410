@@ -30,21 +30,25 @@
                             <button type="button" class="btn" @onclick="SearchSong">
                                 <i class="material-icons differentColor">search</i>
                             </button>
-                           
+
                         </div>
                         @if (!songwasfinded)
                         {
-
                             <h4>
                                 Are you looking for:
-                                <select class="form-control barNewColors" @onchange="SelectedSongChanged">
-
-                                    @foreach (var Song in RecomendedSongList)
-                                    {
-                                        <option value="@Song"> @Song.Name</option>
-                                    }
-                                </select>
                             </h4>
+                            @foreach (var Song in RecomendedSongList)
+                            {
+                                <tr>
+                                    <th>
+                                        @if (Song.Name != "")
+                                        {
+                                            <button class="btnSong" @onclick="(() => {SearchedSong = Song.Name;SearchSong(); })">
+                                                @Song.Name</button>
+                                        }
+                                    </th>
+                                </tr>
+                            }
                         }
                     </div>
                 </div>
@@ -119,12 +123,13 @@
                                             {
                                                 @if (!Mute)
                                                 {
-                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate" @onended="nextSong"
-                                                            @onpause="nextSong">
+                                                    <audio autoplay id="player" @ontimeupdate="displaytimeupdate"
+                                            @onended="nextSong">
                                                         <source src="@path#t=00:@currenttime" />
                                                     </audio>
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%">
+                                                        </div>
                                                     </div>
                                                     <div class="timeLine">
                                                         @timeline
@@ -136,7 +141,8 @@
                                                         <source src="/muted/zzz.mp3" />
                                                     </audio>
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: @percentaje%">
+                                                        </div>
                                                     </div>
                                                     <div class="timeLine">
                                                         @timeline
@@ -150,7 +156,8 @@
                                                     <source src="@path#t=00:@currenttime" />
                                                 </audio>
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: @percentaje%"></div>
+                                                    <div class="progress-bar" role="progressbar" style="width: @percentaje%">
+                                                    </div>
                                                 </div>
                                                 <div class="timeLine">
                                                     @timeline
@@ -184,30 +191,35 @@
 
 </html>
 @code {
+    List<Song> SongList = new List<Song>();
+    List<Song> RecomendedSongList = new List<Song>();
+    private string[]? NameAndPath { get; set; }
     private string? DirectorySongs;
-    private string? pathMuted;
-    public string SearchedSong { get; set; } = "";
-    public string? SelectedSongasString { get; set; } = "";
-    public Song SelectedSongasSong { get; set; }
-    public string[]? NameAndPath { get; set; }
-    public string? path { get; set; }
-    public string? fullPath { get; set; }
-    public string? Songname { get; set; }
-    public string duration { get; set; } = "";
-    public string currenttime { get; set; }
-    public string timeline { get; set; }
+    private string SearchedSong { get; set; } = "";
+    private string? SelectedSongasString { get; set; } = "";
+    private string? path { get; set; }
+    private string? fullPath { get; set; }
+    private string? Songname { get; set; }
+    private string duration { get; set; } = "";
+    private string currenttime { get; set; }
+    private string timeline { get; set; }
+    private int minCount { get; set; } = 0;
+    private int secCount { get; set; } = 0;
     private int totalMin { get; set; }
     private int currentMin { get; set; } = 0;
     private int totalSec { get; set; }
     private int currentSec { get; set; } = 0;
     private int songpositon { get; set; } = -1;
     private double percentaje { get; set; }
-    bool Play = true;
-    bool Mute = false;
-    bool songwasfinded = true;
-    Timer timer;
+    private bool FistSelection { get; set; } = true;
+
+    private bool Play { get; set; } = true;
+    private bool Mute { get; set; } = false;
+    private bool songwasfinded { get; set; } = true;
+    private Timer timer { get; set; }
     private void SearchSong()
     {
+        songwasfinded = true;
         for (int i = 0; i < SongList.Count; i++)
         {
             if (SearchedSong == SongList[i].Name)
@@ -224,7 +236,7 @@
             string temppath = "";
             string songname = "";
             Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AssignValues(selectedSong, temppath, songname);
             AudioDuration(fullPath);
 
             secCount = 0;
@@ -242,7 +254,7 @@
         else
         {
             RecomendedSongList.Clear();
-            RecomendedSongList.Add(new Song("",""));
+            RecomendedSongList.Add(new Song("", ""));
             songwasfinded = false;
             for (int i = 0; i < SongList.Count; i++)
             {
@@ -258,7 +270,6 @@
         timeline = currenttime + "/" + duration;
         getpercentaje();
     }
-    List<Song> RecomendedSongList = new List<Song>();
 
     private void nextSong()
     {
@@ -288,7 +299,7 @@
             string temppath = "";
             string songname = "";
             Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-            AssignValues(selectedSong, nameAndPath, temppath, songname);
+            AssignValues(selectedSong, temppath, songname);
             AudioDuration(fullPath);
 
             secCount = 0;
@@ -302,7 +313,6 @@
             PlayStop();
         }
     }
-    private bool FistSelection = true;
     private void SelectedSongChanged(ChangeEventArgs e)
     {
         songwasfinded = true;
@@ -312,7 +322,7 @@
         string songname = "";
         selectedSong = (string?)e?.Value;
         Song.GetNameandPath(ref selectedSong!, ref nameAndPath!, ref temppath, ref songname);
-        AssignValues(selectedSong, nameAndPath, temppath, songname);
+        AssignValues(selectedSong, temppath, songname);
 
         AudioDuration(fullPath);
         secCount = 0;
@@ -326,16 +336,13 @@
             PlayStop();
         }
     }
-    public void AssignValues(string selectedSong, string[] nameAndPath, string temppath, string songname)
+    private void AssignValues(string selectedSong, string temppath, string songname)
     {
         SelectedSongasString = selectedSong;
-        NameAndPath = nameAndPath;
         path = temppath;
         Songname = songname;
-        SelectedSongasSong = new Song(songname, path);
         fullPath = Path.Combine(DirectorySongs, path.Remove(0, 7));
     }
-    List<Song> SongList = new List<Song>();
     protected override void OnInitialized()
     {
         DirectorySongs = Path.Combine(Environment.ContentRootPath, "wwwroot/Songs");
@@ -368,8 +375,7 @@
             Play = true;
         }
     }
-    private int secCount = 0;
-    private int minCount = 0;
+
     private void TimerOnElapsed(object sender, ElapsedEventArgs e)
     {
         secCount++;
@@ -413,14 +419,13 @@
             duration = "0" + s_minutes.ToString() + ":" + s_seconds.ToString();
         }
     }
-
     private void getpercentaje()
     {
         double totaltime = (totalMin * 60) + totalSec;
         double currenttime = (currentMin * 60) + currentSec;
         double totalpercentaje = (currenttime / totaltime) * 100;
         percentaje = totalpercentaje;
-        if(percentaje == 100 && Mute)
+        if (percentaje == 100 && Mute)
         {
             nextSong();
             PlayStop();
