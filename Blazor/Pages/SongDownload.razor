@@ -1,66 +1,86 @@
 ﻿@page "/SongDownload"
-@using System.Diagnostics
 @using VideoLibrary
 @using System
 @using System.IO
-@using Xabe.FFmpeg
 @inject IWebHostEnvironment Environment
 
 
 <PageTitle>Index</PageTitle>
 <html>
-<input type="text" @bind="link" placeholder="your youtube link:">
-<button @onclick="Download">
-    download
-</button>
-
-@if (isDone)
+@if (!isDone)
+{
+    <input type="text" @bind="link" placeholder="your youtube link:">
+    <button @onclick="(() => {Download(); IsLoading(); })">
+        download
+    </button>
+    @if (!loading)
+    {
+        <div>
+            <h5>
+                downloading...
+            </h5>
+        </div>
+    }
+}
+else
 {
     <h1>
         Downloaded
     </h1>
+    <button @onclick="ResetValues">Download other song?</button>
 }
-@videofullnewpath
 
 </html>
 
 @code {
     public static bool isfirst = true;
     public static bool isDone = false;
+    public static bool loading = false;
     public static string link { get; set; }
     public static string DirectorySongs { get; set; }
+    public static string DirectoryVids { get; set; }
     public static string home { get; set; }
     public static string videoname { get; set; }
     public static string videofullpath { get; set; }
     public static string videofullnewpath { get; set; }
-
+    private static int totalSec { get; set; }
+    private static int totalMin { get; set; }
+    private static string duration { get; set; } = "";
+    public static void IsLoading()
+    {
+        loading = true;
+    }
     public static void Download()
     {
         using (var service = Client.For(YouTube.Default))
         {
-            while (isfirst)
-            {
-                isfirst = false;
-                var video = service.GetVideo(link);
-                string folder = DirectorySongs;
-                string path = Path.Combine(folder, video.FullName);
-                videoname = video.FullName;
-                File.WriteAllBytes(path, video.GetBytes());
-                isDone = true;
-            }
+            var video = service.GetVideo(link);
+            string folder = DirectoryVids;
+            string path = Path.Combine(folder, video.FullName);
+            videoname = video.FullName;
+            File.WriteAllBytes(path, video.GetBytes());
+            isDone = true;
         }
-        videofullpath = Path.Combine(DirectorySongs, videoname);
-        videofullnewpath = (videofullpath.Remove(videofullpath.Length - 4, 4) + ".mp3");
+        videofullpath = Path.Combine(DirectoryVids, videoname);
+        videofullnewpath = Path.Combine(DirectorySongs, videoname.Remove(videoname.Length - 4, 4) + ".mp3");
+        ConvertMP4ToMP3();
     }
-    static void ConvertMP4ToMP3()
+    public static void ConvertMP4ToMP3()
     {
+        System.IO.File.Copy(videofullpath, videofullnewpath);
+        loading = false;
 
     }
-
     protected override void OnInitialized()
     {
+        ResetValues();
         home = Environment.ContentRootPath;
         DirectorySongs = Path.Combine(home, "wwwroot/Songs");
+        DirectoryVids = Path.Combine(home, "wwwroot/Vids");
     }
-
+    private void ResetValues()
+    {
+        link = "";
+        isDone = false;
+    }
 }
