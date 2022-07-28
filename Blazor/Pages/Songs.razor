@@ -78,9 +78,18 @@
                                         <th>
                                             @if (song.Name != "")
                                             {
+                                                @song.Name
                                                 <button class="btnSong"
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
-                                                    @song.Name</button>
+                                        @if (!Play)
+                                                    {
+                                                        <i class="material-icons differentColor">pause_circle_filled</i>
+                                                    }
+                                                    else if (Play)
+                                                    {
+                                                        <i class="material-icons differentColor">play_circle_filled</i>
+                                                    }
+                                                </button>
                                             }
                                         </th>
                                     </tr>
