@@ -89,9 +89,6 @@
                                             {
                                                 @song.Name
 
-                                                @* h2>
-                                                    @song.Name
-                                                    </h2> *@
                                                 <button class="btnSong"
                                         @onclick="(() => {GetSelectedSong(song.Name); PlaySong(); })">
                                                     @if (!Play)

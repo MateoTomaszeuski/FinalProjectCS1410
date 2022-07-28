@@ -1,11 +1,11 @@
-using NUnit.Framework;
-namespace Tests;
+// using NUnit.Framework;
+// namespace Tests;
 
-public class Tests
-{
+// public class Tests
+// {
     // [Test]
     // public void Test1()
     // {
     //     Assert.Pass();
     // }
-}
+// }
