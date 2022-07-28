@@ -161,6 +161,15 @@ h1 {
     justify-content: center;
 }
 
+.title {
+    background-color: #35858B;
+    text-align: center;
+}
+
+.title2 {
+    margin-top: 20px;
+}
+
 footer {
     background-color: #35858B;
 }
