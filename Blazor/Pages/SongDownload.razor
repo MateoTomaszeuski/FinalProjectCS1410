@@ -107,7 +107,7 @@
             videofullnewpath = Path.Combine(DirectorySongs, videoname.Remove(videoname.Length - 4, 4) + ".mp3");
             ConvertMP4ToMP3();
         }
-        catch
+        catch // Catching execptions
         {
             fail = true;
             ArgumentExceptionstring = "URL is not a valid, please insert a YouTube URL!";
@@ -115,7 +115,7 @@
         }
 
     }
-    private static void ConvertMP4ToMP3()
+    private static void ConvertMP4ToMP3() // static member function
     {
         System.IO.File.Copy(videofullpath, videofullnewpath);
         TagLib.File Vfile = TagLib.File.Create(videofullpath);
@@ -134,7 +134,7 @@
         }
         System.IO.File.Delete(videofullpath);
 
-        using (StreamWriter writer = new StreamWriter(videofullpath.Remove(videofullpath.Length - 4, 4) + ".txt", true))
+        using (StreamWriter writer = new StreamWriter(videofullpath.Remove(videofullpath.Length - 4, 4) + ".txt", true)) // FileIO
         {
             writer.WriteLine(duration);
         }

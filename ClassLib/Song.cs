@@ -1,8 +1,7 @@
-
-public record Song
+public class Song // Class
 {
-    public string Name { get; set; }
-    public string SongPath { get; set; }
+    public string Name { get; set; } // Property
+    public string SongPath { get; set; } // Property
 
     public Song(string name, string path)
     {
